@@ -65,7 +65,7 @@
                         // 设置容器组的宽度等于父布局的宽度
                         group.width.fractionalWidth(1.0);
                         // 设置容器组的高度等于父布局的宽度
-                        group.width.fractionalWidth(1.0);
+                        group.height.fractionalWidth(1.0);
                          
                         // 向组内添加容器1
                         group.addContainer(^(LWZCollectionTemplateContainerBuilder * _Nonnull container) {
