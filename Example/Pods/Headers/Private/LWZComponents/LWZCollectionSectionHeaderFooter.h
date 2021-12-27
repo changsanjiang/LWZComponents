@@ -1,0 +1,1 @@
+../../../../../LWZComponents/LWZCollectionViewComponents/Provider/LWZCollectionSectionHeaderFooter.h

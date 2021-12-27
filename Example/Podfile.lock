@@ -1,0 +1,37 @@
+PODS:
+  - LWZComponents (1.0.0):
+    - LWZComponents/LWZCollectionViewComponents (= 1.0.0)
+  - LWZComponents/LWZCollectionViewComponents (1.0.0)
+  - Masonry (1.1.0)
+  - SJUIKit/AttributesFactory (0.0.0.58):
+    - SJUIKit/AttributesFactory/Deprecated (= 0.0.0.58)
+    - SJUIKit/AttributesFactory/UIKitText (= 0.0.0.58)
+  - SJUIKit/AttributesFactory/Deprecated (0.0.0.58)
+  - SJUIKit/AttributesFactory/UIKitText (0.0.0.58)
+  - YYModel (1.0.4)
+
+DEPENDENCIES:
+  - LWZComponents (from `../`)
+  - Masonry
+  - SJUIKit/AttributesFactory
+  - YYModel
+
+SPEC REPOS:
+  trunk:
+    - Masonry
+    - SJUIKit
+    - YYModel
+
+EXTERNAL SOURCES:
+  LWZComponents:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  LWZComponents: f19371ecd3240e340582c6ad248873b25df38e4b
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  SJUIKit: 86d5b16f8b8b17274ef8805acf965e4014629e15
+  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
+
+PODFILE CHECKSUM: 23e50482f501cceba50da17046f8db03e5254e4b
+
+COCOAPODS: 1.11.2

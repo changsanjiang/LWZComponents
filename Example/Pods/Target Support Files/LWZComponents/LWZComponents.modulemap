@@ -1,0 +1,6 @@
+framework module LWZComponents {
+  umbrella header "LWZComponents-umbrella.h"
+
+  export *
+  module * { export * }
+}

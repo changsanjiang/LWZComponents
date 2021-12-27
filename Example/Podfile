@@ -1,9 +1,22 @@
-use_frameworks!
+#use_frameworks!
 
 platform :ios, '9.0'
 
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      if config.name == 'Debug'
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = '$(inherited) LWZ_DEBUG=1'
+      end
+    end
+  end
+end
+
 target 'LWZComponents_Example' do
   pod 'LWZComponents', :path => '../'
+  pod 'YYModel'
+  pod 'Masonry'
+  pod 'SJUIKit/AttributesFactory'
 
   target 'LWZComponents_Tests' do
     inherit! :search_paths

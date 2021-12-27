@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="tth-ip-xxy">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,12 +18,100 @@
                     <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="2x7-MP-er2">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o8A-kq-vtz">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="89"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="WeightLayout"/>
+                                        <connections>
+                                            <action selector="pushWeightLayout:" destination="whP-gf-Uak" eventType="touchUpInside" id="Kjv-8S-oBY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcK-PX-EDM" userLabel="WaterfallFlowLayout">
+                                        <rect key="frame" x="0.0" y="89" width="375" height="89"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="WaterfallFlowLayout"/>
+                                        <connections>
+                                            <action selector="pushWaterfallFlowLayout:" destination="whP-gf-Uak" eventType="touchUpInside" id="PBV-Lg-C2O"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sh9-cf-1I5">
+                                        <rect key="frame" x="0.0" y="178" width="375" height="89"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="ListLayout"/>
+                                        <connections>
+                                            <action selector="pushListLayout:" destination="whP-gf-Uak" eventType="touchUpInside" id="HWl-yZ-bQN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="svZ-zS-hYH">
+                                        <rect key="frame" x="0.0" y="267" width="375" height="89"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="RestrictedLayout"/>
+                                        <connections>
+                                            <action selector="pushRestrictedLayout:" destination="whP-gf-Uak" eventType="touchUpInside" id="LWi-eN-2Hj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aem-ub-2LJ" userLabel="WaterfallFlowLayout">
+                                        <rect key="frame" x="0.0" y="356" width="375" height="89"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="TemplateLayout"/>
+                                        <connections>
+                                            <action selector="pushTemplateLayout:" destination="whP-gf-Uak" eventType="touchUpInside" id="Z6X-e1-XHk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xto-tf-HnK" userLabel="WaterfallFlowLayout">
+                                        <rect key="frame" x="0.0" y="445" width="375" height="89"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="CompositionalLayout"/>
+                                        <connections>
+                                            <action selector="pushCompositionalLayout:" destination="whP-gf-Uak" eventType="touchUpInside" id="Wr7-i5-f2m"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tHP-0m-yQG" userLabel="WaterfallFlowLayout">
+                                        <rect key="frame" x="0.0" y="534" width="375" height="89"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="HybridLayout(Mix)"/>
+                                        <connections>
+                                            <action selector="pushHybridLayout:" destination="whP-gf-Uak" eventType="touchUpInside" id="WNR-ck-v8L"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="2x7-MP-er2" secondAttribute="trailing" id="OKb-tn-m7Y"/>
+                            <constraint firstItem="2x7-MP-er2" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" id="PYH-T1-gPh"/>
+                            <constraint firstItem="2x7-MP-er2" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" id="Wyq-A5-rtF"/>
+                            <constraint firstItem="Mvr-aV-6Um" firstAttribute="top" secondItem="2x7-MP-er2" secondAttribute="bottom" id="yma-yY-IKe"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="y04-VO-5YG"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="305" y="433"/>
+            <point key="canvasLocation" x="1244" y="432.23388305847078"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="x1O-Cp-jUV">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tth-ip-xxy" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8cI-8C-OkU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="whP-gf-Uak" kind="relationship" relationship="rootViewController" id="qKE-JZ-HYZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YXW-ix-CVy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="304.80000000000001" y="432.23388305847078"/>
         </scene>
     </scenes>
 </document>
