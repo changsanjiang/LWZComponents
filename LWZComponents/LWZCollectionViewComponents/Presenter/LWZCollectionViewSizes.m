@@ -244,7 +244,7 @@
 }
 
 - (NSInteger)numberOfItemsInSection:(NSInteger)section {
-    return _sections.count;
+    return _sections[section].numberOfItems;
 }
 
 - (CGRect)relativeRectToFit:(CGRect)fitsRect forDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(nonnull NSIndexPath *)indexPath {
