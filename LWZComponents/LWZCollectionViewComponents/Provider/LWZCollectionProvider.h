@@ -2,7 +2,7 @@
 //  LWZCollectionProvider.h
 //  LWZCollectionViewComponents_Example
 //
-//  Created by changsanjiang on 2020/11/16.
+//  Created by BlueDancer on 2020/11/16.
 //  Copyright © 2020 changsanjiang@gmail.com. All rights reserved.
 //
 

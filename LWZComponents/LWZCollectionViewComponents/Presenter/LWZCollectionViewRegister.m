@@ -2,7 +2,7 @@
 //  LWZCollectionViewRegister.m
 //  LWZCollectionViewComponents_Example
 //
-//  Created by changsanjiang on 2020/12/7.
+//  Created by BlueDancer on 2020/12/7.
 //  Copyright © 2020 changsanjiang@gmail.com. All rights reserved.
 //
 

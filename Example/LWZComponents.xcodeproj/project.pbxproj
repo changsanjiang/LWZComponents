@@ -43,10 +43,10 @@
 		A66AFE00277734170024BBC9 /* CommonTextLayoutSize.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDAC277734160024BBC9 /* CommonTextLayoutSize.m */; };
 		A66AFE01277734170024BBC9 /* CommonImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDAF277734160024BBC9 /* CommonImageView.m */; };
 		A66AFE02277734170024BBC9 /* CommonLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDB0277734160024BBC9 /* CommonLabel.m */; };
-		A66AFE03277734170024BBC9 /* HLProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDB5277734170024BBC9 /* HLProvider.m */; };
-		A66AFE04277734170024BBC9 /* HLModelProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDB9277734170024BBC9 /* HLModelProvider.m */; };
-		A66AFE05277734170024BBC9 /* HLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDBA277734170024BBC9 /* HLModel.m */; };
-		A66AFE06277734170024BBC9 /* HLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDBC277734170024BBC9 /* HLViewController.m */; };
+		A66AFE03277734170024BBC9 /* MLProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDB5277734170024BBC9 /* MLProvider.m */; };
+		A66AFE04277734170024BBC9 /* MLModelProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDB9277734170024BBC9 /* MLModelProvider.m */; };
+		A66AFE05277734170024BBC9 /* MLModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDBA277734170024BBC9 /* MLModel.m */; };
+		A66AFE06277734170024BBC9 /* MLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDBC277734170024BBC9 /* MLViewController.m */; };
 		A66AFE07277734170024BBC9 /* LLProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDC1277734170024BBC9 /* LLProvider.m */; };
 		A66AFE08277734170024BBC9 /* LLCollectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDC3277734170024BBC9 /* LLCollectionItem.m */; };
 		A66AFE09277734170024BBC9 /* LLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A66AFDC5277734170024BBC9 /* LLViewController.m */; };
@@ -148,14 +148,14 @@
 		A66AFDAF277734160024BBC9 /* CommonImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonImageView.m; sourceTree = "<group>"; };
 		A66AFDB0277734160024BBC9 /* CommonLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonLabel.m; sourceTree = "<group>"; };
 		A66AFDB1277734160024BBC9 /* CommonTextLayoutSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonTextLayoutSize.h; sourceTree = "<group>"; };
-		A66AFDB3277734170024BBC9 /* HLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLViewController.h; sourceTree = "<group>"; };
-		A66AFDB5277734170024BBC9 /* HLProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLProvider.m; sourceTree = "<group>"; };
-		A66AFDB6277734170024BBC9 /* HLProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLProvider.h; sourceTree = "<group>"; };
-		A66AFDB8277734170024BBC9 /* HLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLModel.h; sourceTree = "<group>"; };
-		A66AFDB9277734170024BBC9 /* HLModelProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLModelProvider.m; sourceTree = "<group>"; };
-		A66AFDBA277734170024BBC9 /* HLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLModel.m; sourceTree = "<group>"; };
-		A66AFDBB277734170024BBC9 /* HLModelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLModelProvider.h; sourceTree = "<group>"; };
-		A66AFDBC277734170024BBC9 /* HLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLViewController.m; sourceTree = "<group>"; };
+		A66AFDB3277734170024BBC9 /* MLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLViewController.h; sourceTree = "<group>"; };
+		A66AFDB5277734170024BBC9 /* MLProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLProvider.m; sourceTree = "<group>"; };
+		A66AFDB6277734170024BBC9 /* MLProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLProvider.h; sourceTree = "<group>"; };
+		A66AFDB8277734170024BBC9 /* MLModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLModel.h; sourceTree = "<group>"; };
+		A66AFDB9277734170024BBC9 /* MLModelProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLModelProvider.m; sourceTree = "<group>"; };
+		A66AFDBA277734170024BBC9 /* MLModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLModel.m; sourceTree = "<group>"; };
+		A66AFDBB277734170024BBC9 /* MLModelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLModelProvider.h; sourceTree = "<group>"; };
+		A66AFDBC277734170024BBC9 /* MLViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLViewController.m; sourceTree = "<group>"; };
 		A66AFDBE277734170024BBC9 /* LLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLViewController.h; sourceTree = "<group>"; };
 		A66AFDC0277734170024BBC9 /* LLProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLProvider.h; sourceTree = "<group>"; };
 		A66AFDC1277734170024BBC9 /* LLProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLProvider.m; sourceTree = "<group>"; };
@@ -336,7 +336,7 @@
 				A66AFD98277734160024BBC9 /* RestrictedLayout */,
 				A66AFD84277734160024BBC9 /* TempleteLayout */,
 				A66AFDC6277734170024BBC9 /* CompositionalLayout */,
-				A66AFDB2277734170024BBC9 /* HybridLayout(Mix) */,
+				A66AFDB2277734170024BBC9 /* MultipleLayout */,
 				A66AFDAA277734160024BBC9 /* Common */,
 			);
 			name = CollectionDemo;
@@ -444,21 +444,21 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		A66AFDB2277734170024BBC9 /* HybridLayout(Mix) */ = {
+		A66AFDB2277734170024BBC9 /* MultipleLayout */ = {
 			isa = PBXGroup;
 			children = (
-				A66AFDB3277734170024BBC9 /* HLViewController.h */,
-				A66AFDBC277734170024BBC9 /* HLViewController.m */,
+				A66AFDB3277734170024BBC9 /* MLViewController.h */,
+				A66AFDBC277734170024BBC9 /* MLViewController.m */,
 				A66AFDB4277734170024BBC9 /* Pvovider */,
 			);
-			path = "HybridLayout(Mix)";
+			path = MultipleLayout;
 			sourceTree = "<group>";
 		};
 		A66AFDB4277734170024BBC9 /* Pvovider */ = {
 			isa = PBXGroup;
 			children = (
-				A66AFDB6277734170024BBC9 /* HLProvider.h */,
-				A66AFDB5277734170024BBC9 /* HLProvider.m */,
+				A66AFDB6277734170024BBC9 /* MLProvider.h */,
+				A66AFDB5277734170024BBC9 /* MLProvider.m */,
 				A66AFDB7277734170024BBC9 /* Model */,
 			);
 			path = Pvovider;
@@ -467,10 +467,10 @@
 		A66AFDB7277734170024BBC9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A66AFDBB277734170024BBC9 /* HLModelProvider.h */,
-				A66AFDB9277734170024BBC9 /* HLModelProvider.m */,
-				A66AFDB8277734170024BBC9 /* HLModel.h */,
-				A66AFDBA277734170024BBC9 /* HLModel.m */,
+				A66AFDBB277734170024BBC9 /* MLModelProvider.h */,
+				A66AFDB9277734170024BBC9 /* MLModelProvider.m */,
+				A66AFDB8277734170024BBC9 /* MLModel.h */,
+				A66AFDBA277734170024BBC9 /* MLModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -774,7 +774,7 @@
 				A66AFDF3277734170024BBC9 /* WFLCollectionViewCell.m in Sources */,
 				A66AFDF8277734170024BBC9 /* RLProvider.m in Sources */,
 				A66AFE07277734170024BBC9 /* LLProvider.m in Sources */,
-				A66AFE03277734170024BBC9 /* HLProvider.m in Sources */,
+				A66AFE03277734170024BBC9 /* MLProvider.m in Sources */,
 				A66AFE08277734170024BBC9 /* LLCollectionItem.m in Sources */,
 				A66AFE0C277734170024BBC9 /* CLViewController.m in Sources */,
 				6003F59E195388D20070C39A /* LWZAppDelegate.m in Sources */,
@@ -788,7 +788,7 @@
 				A66AFE02277734170024BBC9 /* CommonLabel.m in Sources */,
 				A66AFE1C277734170024BBC9 /* WLViewController.m in Sources */,
 				A66AFE19277734170024BBC9 /* WLCollectionSectionHeaderFooterView.m in Sources */,
-				A66AFE05277734170024BBC9 /* HLModel.m in Sources */,
+				A66AFE05277734170024BBC9 /* MLModel.m in Sources */,
 				A66AFE0A277734170024BBC9 /* CLItem.m in Sources */,
 				A66AFE01277734170024BBC9 /* CommonImageView.m in Sources */,
 				6003F5A7195388D20070C39A /* LWZViewController.m in Sources */,
@@ -805,8 +805,8 @@
 				A66AFE17277734170024BBC9 /* WLModelProvider.m in Sources */,
 				A66AFDF7277734170024BBC9 /* WFLViewController.m in Sources */,
 				A66AFE0B277734170024BBC9 /* CLProvider.m in Sources */,
-				A66AFE06277734170024BBC9 /* HLViewController.m in Sources */,
-				A66AFE04277734170024BBC9 /* HLModelProvider.m in Sources */,
+				A66AFE06277734170024BBC9 /* MLViewController.m in Sources */,
+				A66AFE04277734170024BBC9 /* MLModelProvider.m in Sources */,
 				A66AFDF2277734170024BBC9 /* WFLCollectionItem.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				A66AFDFE277734170024BBC9 /* RLModelProvider.m in Sources */,

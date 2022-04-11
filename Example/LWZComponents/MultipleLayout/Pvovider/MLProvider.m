@@ -1,12 +1,12 @@
 //
-//  HLProvider.m
+//  MLProvider.m
 //  LWZCollectionViewComponents_Example
 //
 //  Created by changsanjiang on 2021/12/25.
 //  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
 //
 
-#import "HLProvider.h"
+#import "MLProvider.h"
 #import "CommonDependencies.h"
 #import "WLUserCollectionItem.h"
 #import "WLPostCollectionItem.h"
@@ -15,8 +15,8 @@
 #import "WFLCollectionItem.h"
 #import "CLItem.h"
 
-@implementation HLProvider
-- (instancetype)initWithModel:(HLModel *)model {
+@implementation MLProvider
+- (instancetype)initWithModel:(MLModel *)model {
     self = [super init];
     if ( self ) {
         [self _addRLSection:model.rl_List];
@@ -40,7 +40,7 @@
             
             // 设置 sectionHeaderView
             WLCollectionSectionHeaderFooter *header = [WLCollectionSectionHeaderFooter.alloc initWithTitle:[NSAttributedString sj_UIKitText:^(id<SJUIKitTextMakerProtocol>  _Nonnull make) {
-                make.append(@"设置比重: 每行显示三个item");
+                make.append(@"Header1");
                 make.font([UIFont boldSystemFontOfSize:18]);
             }]];
             header.contentInsets = UIEdgeInsetsMake(12, 12, 0, 12);
@@ -78,7 +78,7 @@
             
             // 设置 sectionHeaderView
             WLCollectionSectionHeaderFooter *header = [WLCollectionSectionHeaderFooter.alloc initWithTitle:[NSAttributedString sj_UIKitText:^(id<SJUIKitTextMakerProtocol>  _Nonnull make) {
-                make.append(@"Header: 默认比重为 1.0, 即每行显示一个item");
+                make.append(@"Header2");
                 make.font([UIFont boldSystemFontOfSize:18]);
             }]];
             header.contentInsets = UIEdgeInsetsMake(12, 12, 0, 12);
@@ -183,8 +183,8 @@
         for ( NSInteger i = 0 ; i < 6 ; ++ i ) {
             [make addItem:CLItem.alloc.init];
         }
-
-        make.layoutTemplateContainerGroups = [LWZCollectionLayoutTemplate build:^(LWZCollectionTemplateBuilder * _Nonnull make) {
+        
+        make.layoutTemplateContainerGroups = [LWZCollectionTemplate templateWithBuildBlock:^(LWZCollectionTemplateBuilder * _Nonnull make) {
             // 添加1个容器组
             make.addGroup(^(LWZCollectionTemplateGroupBuilder * _Nonnull group) {
                 // 设置容器组的宽度等于父布局的宽度

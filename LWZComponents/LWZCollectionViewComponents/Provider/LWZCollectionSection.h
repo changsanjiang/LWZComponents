@@ -2,7 +2,7 @@
 //  LWZCollectionSection.h
 //  LWZCollectionViewComponents_Example
 //
-//  Created by changsanjiang on 2020/11/16.
+//  Created by BlueDancer on 2020/11/16.
 //  Copyright © 2020 changsanjiang@gmail.com. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 #import "LWZCollectionSectionHeaderFooter.h"
 #import "LWZCollectionDecoration.h"
 #import "LWZCollectionItem.h"
-@class LWZCollectionLayoutTemplateGroup;
+@class LWZCollectionTemplateGroup;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface LWZCollectionSection : NSObject
@@ -63,21 +63,21 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface LWZCollectionSection (LWZCollectionWaterfallFlowLayoutAdditions)
+@interface LWZCollectionSection (LWZCollectionViewWaterfallFlowLayoutAdditions)
 @property (nonatomic) NSInteger numberOfArrangedItemsPerLine;
 @end
 
 
-@interface LWZCollectionSection (LWZCollectionTemplateLayoutAdditions)
-@property (nonatomic, strong, nullable) NSArray<LWZCollectionLayoutTemplateGroup *> *layoutTemplateContainerGroups;
+@interface LWZCollectionSection (LWZCollectionViewTemplateLayoutAdditions)
+@property (nonatomic, strong, nullable) NSArray<LWZCollectionTemplateGroup *> *layoutTemplateContainerGroups;
 @end
 
-@interface LWZCollectionSection (LWZCollectionHybridLayoutAdditions)
+@interface LWZCollectionSection (LWZCollectionViewMultipleLayoutAdditions)
 @property (nonatomic) LWZCollectionLayoutType layoutType;
 @end
 
 
-@interface LWZCollectionSection (LWZCollectionCompositionalLayoutAdditions)
+@interface LWZCollectionSection (LWZCollectionViewCompositionalLayoutAdditions)
 @property (nonatomic, getter=isOrthogonalScrolling) BOOL orthogonalScrolling;
 - (CGSize)layoutSizeThatFits:(CGSize)size forOrthogonalContentAtIndex:(NSInteger)index scrollDirection:(UICollectionViewScrollDirection)scrollDirection;
 

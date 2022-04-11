@@ -32,7 +32,7 @@
     
     _presenter = [LWZCollectionViewPresenter.alloc init];
     
-    LWZCollectionWeightLayout *layout = [LWZCollectionWeightLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
+    LWZCollectionViewWeightLayout *layout = [LWZCollectionViewWeightLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
     layout.sectionHeadersPinToVisibleBounds = YES;
     _collectionView = [LWZCollectionView.alloc initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionView.dataSource = _presenter;

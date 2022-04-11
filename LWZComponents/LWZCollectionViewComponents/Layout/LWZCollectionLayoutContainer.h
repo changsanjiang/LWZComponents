@@ -1,8 +1,8 @@
 //
-//  LWZCollectionLayoutContentContainer.h
+//  LWZCollectionLayoutContainer.h
 //  SJTestAutoLayout_Example
 //
-//  Created by changsanjiang on 2021/11/9.
+//  Created by 蓝舞者 on 2021/11/9.
 //  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 @class LWZCollectionTemplateBuilder;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface LWZCollectionLayoutCollectionContentContainer : NSObject
+@interface LWZCollectionLayoutContainer : NSObject
 @property (nonatomic, readonly) CGSize collectionSize;
 @property (nonatomic, readonly) UICollectionViewScrollDirection layoutDirection;
 @property (nonatomic, readonly) UIEdgeInsets layoutInsets;
@@ -19,44 +19,44 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface LWZCollectionLayoutSectionContentContainer : NSObject
+@interface LWZSectionLayoutContainer : NSObject
 @property (nonatomic, readonly) UIEdgeInsets edgeSpacings;
 @property (nonatomic, readonly) UIEdgeInsets contentInsets;
-@property (nonatomic, strong, readonly) LWZCollectionLayoutCollectionContentContainer *collectionContentContainer;
+@property (nonatomic, strong, readonly) LWZCollectionLayoutContainer *collectionLayoutContainer;
 @property (nonatomic, readonly) UICollectionViewScrollDirection layoutDirection;
 @property (nonatomic, readonly) UIEdgeInsets layoutInsets;
 @property (nonatomic, readonly) UIFloatRange layoutRange;
 
-@property (nonatomic, readonly) UIFloatRange headerFooterLayoutRange;
-@property (nonatomic, readonly) UIFloatRange itemLayoutRange;
-@property (nonatomic, readonly) CGSize itemLayoutContainerSize;
+@property (nonatomic, readonly) UIFloatRange layoutRangeOfHeaderFooter;
+@property (nonatomic, readonly) UIFloatRange layoutRangeOfItem;
+@property (nonatomic, readonly) CGSize layoutContainerSizeOfItem;
 @end
 
 #pragma mark - Template
 
-@interface LWZCollectionLayoutTemplateDimension : NSObject
+@interface LWZCollectionTemplateDimension : NSObject
 - (instancetype)initWithFractionalWidthDimension:(CGFloat)dimension; // 相对于父容器的比例
 - (instancetype)initWithFractionalHeightDimension:(CGFloat)dimension; // 相对于父容器的比例
 - (instancetype)initWithAbsoluteDimension:(CGFloat)dimension; // 固定值
-- (instancetype)initWithDimension:(CGFloat)dimension semantic:(LWZCollectionLayoutTemplateDimensionSemantic)semantic;
+- (instancetype)initWithDimension:(CGFloat)dimension semantic:(LWZCollectionTemplateDimensionSemantic)semantic;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
-@property (nonatomic, readonly) LWZCollectionLayoutTemplateDimensionSemantic semantic;
+@property (nonatomic, readonly) LWZCollectionTemplateDimensionSemantic semantic;
 @property (nonatomic, readonly) CGFloat dimension;
 @end
 
-@interface LWZCollectionLayoutTemplateSize : NSObject
-- (instancetype)initWithWidthDimension:(LWZCollectionLayoutTemplateDimension *)width heightDimension:(LWZCollectionLayoutTemplateDimension *)height;
+@interface LWZCollectionTemplateSize : NSObject
+- (instancetype)initWithWidthDimension:(LWZCollectionTemplateDimension *)width heightDimension:(LWZCollectionTemplateDimension *)height;
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
-@property (nonatomic, strong, readonly) LWZCollectionLayoutTemplateDimension *width;
-@property (nonatomic, strong, readonly) LWZCollectionLayoutTemplateDimension *height;
+@property (nonatomic, strong, readonly) LWZCollectionTemplateDimension *width;
+@property (nonatomic, strong, readonly) LWZCollectionTemplateDimension *height;
 @end
 
-@interface LWZCollectionLayoutTemplateItem : NSObject
-- (instancetype)initWithSize:(LWZCollectionLayoutTemplateSize *)size;
+@interface LWZCollectionTemplateItem : NSObject
+- (instancetype)initWithSize:(LWZCollectionTemplateSize *)size;
 
-@property (nonatomic, strong, readonly) LWZCollectionLayoutTemplateSize *size;
+@property (nonatomic, strong, readonly) LWZCollectionTemplateSize *size;
 @end
 
 /**
@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  \code
  +-----[V]-----+ <--- Container
  |             |
- |  +-------+ <------ Item
+ |  +-------+  |
  |  |       |  |
  |  | Item1 |  |
  |  |       |  |
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  +-------[H]----------------------+ <---- Container
  |                                |
- |  +-----------+  +-----------+ <------- Item
+ |  +-----------+  +-----------+  |
  |  |           |  |           |  |
  |  |           |  |           |  |
  |  |     1     |  |     2     |  |
@@ -91,9 +91,9 @@ NS_ASSUME_NONNULL_BEGIN
  +--------------------------------+
  \endcode
  */
-@interface LWZCollectionLayoutTemplateContainer : LWZCollectionLayoutTemplateItem
-- (instancetype)initWithSize:(LWZCollectionLayoutTemplateSize *)size items:(NSArray<LWZCollectionLayoutTemplateItem *> *)items;
-@property (nonatomic, copy, readonly) NSArray<LWZCollectionLayoutTemplateItem *> *items;
+@interface LWZCollectionTemplateContainer : LWZCollectionTemplateItem
+- (instancetype)initWithSize:(LWZCollectionTemplateSize *)size items:(NSArray<LWZCollectionTemplateItem *> *)items;
+@property (nonatomic, copy, readonly) NSArray<LWZCollectionTemplateItem *> *items;
 @end
 
 /**
@@ -126,23 +126,23 @@ NS_ASSUME_NONNULL_BEGIN
  +----------------------------------------------+
  \endcode
  */
-@interface LWZCollectionLayoutTemplateGroup : LWZCollectionLayoutTemplateItem
-- (instancetype)initWithSize:(LWZCollectionLayoutTemplateSize *)size containers:(NSArray<LWZCollectionLayoutTemplateContainer *> *)containers;
-@property (nonatomic, strong, readonly, nullable) NSArray<LWZCollectionLayoutTemplateContainer *> *containers;
+@interface LWZCollectionTemplateGroup : LWZCollectionTemplateItem
+- (instancetype)initWithSize:(LWZCollectionTemplateSize *)size containers:(NSArray<LWZCollectionTemplateContainer *> *)containers;
+@property (nonatomic, strong, readonly, nullable) NSArray<LWZCollectionTemplateContainer *> *containers;
 @end
 
-@interface LWZCollectionLayoutTemplate : NSObject
-+ (NSArray<LWZCollectionLayoutTemplateGroup *> *)build:(void(^)(LWZCollectionTemplateBuilder *make))block;
+@interface LWZCollectionTemplate : NSObject
++ (NSArray<LWZCollectionTemplateGroup *> *)templateWithBuildBlock:(void(^)(LWZCollectionTemplateBuilder *make))block;
 @end
 
 // solver 对frame的解析. 每个result表示对应item在groups中的位置(frame)
-@interface LWZCollectionTemplateLayoutSolver : NSObject
-- (instancetype)initWithGroups:(NSArray<LWZCollectionLayoutTemplateGroup *> *)groups scrollDirection:(UICollectionViewScrollDirection)scrollDirection numberOfItems:(NSInteger)numberOfItems lineSpacing:(CGFloat)lineSpacing itemSpacing:(CGFloat)itemSpacing containerSize:(CGSize)containerSize;
+@interface LWZCollectionTemplateSolver : NSObject
+- (instancetype)initWithGroups:(NSArray<LWZCollectionTemplateGroup *> *)groups scrollDirection:(UICollectionViewScrollDirection)scrollDirection numberOfItems:(NSInteger)numberOfItems lineSpacing:(CGFloat)lineSpacing itemSpacing:(CGFloat)itemSpacing containerSize:(CGSize)containerSize;
 - (CGRect)itemLayoutFrameAtIndex:(NSInteger)index;
 @end
 
 @interface LWZCollectionTemplateDimensionBuilder : NSObject
-@property (nonatomic, copy, readonly) LWZCollectionTemplateDimensionBuilder *(^semantic)(LWZCollectionLayoutTemplateDimensionSemantic semantic);
+@property (nonatomic, copy, readonly) LWZCollectionTemplateDimensionBuilder *(^semantic)(LWZCollectionTemplateDimensionSemantic semantic);
 @property (nonatomic, copy, readonly) LWZCollectionTemplateDimensionBuilder *(^dimension)(CGFloat dimension);
 
 @property (nonatomic, copy, readonly) void(^fractionalWidth)(CGFloat dimension);
@@ -165,22 +165,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LWZCollectionTemplateBuilder : NSObject
 @property (nonatomic, copy, readonly) void(^addGroup)(void(^block)(LWZCollectionTemplateGroupBuilder *group));
-@property (nonatomic, readonly) NSArray<LWZCollectionLayoutTemplateGroup *> *groups;
+@property (nonatomic, readonly) NSArray<LWZCollectionTemplateGroup *> *groups;
 @end
 
 /**
  \code
- - (NSArray<LWZCollectionLayoutTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)section {
+ - (NSArray<LWZCollectionTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)section {
 
-     return [LWZCollectionLayoutTemplate build:^(LWZCollectionTemplateBuilder * _Nonnull make) {
+     return [LWZCollectionTemplate templateWithBuildBlock:^(LWZCollectionTemplateBuilder * _Nonnull make) {
  //
  //            Container 1
  //             |
- //         +---|----------------------------------+ <-- Group
- //         |   v                                  |
- //         |  +--------------+  +--------------+ <----- Container 2
+ //         +---|----------------------------------+
+ //         |   v                                   |
+ //         |  +--------------+  +--------------+ <--- Container 2
  //         |  |              |  |              |  |
- //         |  |  +--------+  |  |  +--------+ <-------- Item
+ //         |  |  +--------+  |  |  +--------+  |  |
  //         |  |  |        |  |  |  |        |  |  |
  //         |  |  |   1    |  |  |  |        |  |  |
  //         |  |  +--------+  |  |  |        |  |  |

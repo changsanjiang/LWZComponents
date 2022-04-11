@@ -30,7 +30,7 @@
     
     _presenter = [LWZCollectionViewPresenter.alloc initWithProvider:CLProvider.alloc.init];
     
-    LWZCollectionCompositionalLayout *layout = [LWZCollectionCompositionalLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
+    LWZCollectionViewCompositionalLayout *layout = [LWZCollectionViewCompositionalLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
     _collectionView = [LWZCollectionView.alloc initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionView.dataSource = _presenter;
     [self.view addSubview:_collectionView];

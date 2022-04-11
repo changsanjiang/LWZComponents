@@ -2,7 +2,7 @@
 //  LWZCollectionView.h
 //  LWZFoundation
 //
-//  Created by changsanjiang on 2020/12/22.
+//  Created by BlueDancer on 2020/12/22.
 //
  
 #import "LWZCollectionViewPresenter.h"

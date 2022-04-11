@@ -58,7 +58,7 @@
 @end
 
 
-#import "LWZCollectionViewLayoutAttributes.h"
+#import "UICollectionViewLayoutAttributes+LWZCollectionAdditions.h"
 
 @interface LWZCollectionSeparatorDecorationView : UICollectionReusableView
 @property (nonatomic, strong) UIView *contentView;

@@ -2,7 +2,7 @@
 //  LWZCollectionViewPresenter.m
 //  LWZCollectionViewComponents_Example
 //
-//  Created by changsanjiang on 2020/11/16.
+//  Created by BlueDancer on 2020/11/16.
 //  Copyright © 2020 changsanjiang@gmail.com. All rights reserved.
 //
 
@@ -321,7 +321,7 @@ static void *kBindingHeaderFooter = &kBindingHeaderFooter;
 
 #pragma mark - LWZCollectionViewLayoutDelegate
 
-- (void)layout:(__kindof LWZCollectionViewLayout *)layout willPrepareLayoutInContainer:(LWZCollectionLayoutCollectionContentContainer *)container {
+- (void)layout:(__kindof LWZCollectionViewLayout *)layout willPrepareLayoutInContainer:(LWZCollectionLayoutContainer *)container {
     UIFloatRange layoutRange = container.layoutRange;
     if ( !UIFloatRangeIsEqualToRange(layoutRange, _mBoundary.layoutRange) ) {
         _mFlags.needsRefreshVisibleItems = YES;
@@ -330,7 +330,7 @@ static void *kBindingHeaderFooter = &kBindingHeaderFooter;
     }
 }
 
-- (void)layout:(__kindof LWZCollectionViewLayout *)layout didFinishPreparingInContainer:(LWZCollectionLayoutCollectionContentContainer *)container {
+- (void)layout:(__kindof LWZCollectionViewLayout *)layout didFinishPreparingInContainer:(LWZCollectionLayoutContainer *)container {
     if ( _mFlags.needsRefreshVisibleItems ) {
         _mFlags.needsRefreshVisibleItems = NO;
         [self refreshVisibleItemsForCollectionView:layout.collectionView];
@@ -443,37 +443,37 @@ static void *kBindingHeaderFooter = &kBindingHeaderFooter;
     return [self _sectionFooterDecorationAtIndex:indexPath.section].zPosition;
 }
 
-#pragma mark - LWZCollectionWeightLayoutDelegate
+#pragma mark - LWZCollectionViewWeightLayoutDelegate
 
-- (CGFloat)layout:(LWZCollectionWeightLayout *)layout weightForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)layout:(LWZCollectionViewWeightLayout *)layout layoutWeightForItemAtIndexPath:(NSIndexPath *)indexPath {
     return [_provider itemAtIndexPath:indexPath].weight;
 }
 
-#pragma mark - LWZCollectionListLayoutDelegate
+#pragma mark - LWZCollectionViewListLayoutDelegate
 
 - (LWZCollectionLayoutAlignment)layout:(__kindof LWZCollectionViewLayout *)layout layoutAlignmentForItemAtIndexPath:(NSIndexPath *)indexPath {
     return [_provider itemAtIndexPath:indexPath].layoutAlignment;
 }
 
-#pragma mark - LWZCollectionWaterfallFlowLayoutDelegate
+#pragma mark - LWZCollectionViewWaterfallFlowLayoutDelegate
 
-- (NSInteger)layout:(LWZCollectionWaterfallFlowLayout *)layout numberOfArrangedItemsPerLineInSection:(NSInteger)index {
+- (NSInteger)layout:(LWZCollectionViewWaterfallFlowLayout *)layout layoutNumberOfArrangedItemsPerLineInSection:(NSInteger)index {
     return [_provider sectionAtIndex:index].numberOfArrangedItemsPerLine;
 }
 
-#pragma mark - LWZCollectionTemplateLayoutDelegate
+#pragma mark - LWZCollectionViewTemplateLayoutDelegate
 
-- (NSArray<LWZCollectionLayoutTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)index {
+- (NSArray<LWZCollectionTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)index {
     return [_provider sectionAtIndex:index].layoutTemplateContainerGroups;
 }
 
-#pragma mark - LWZCollectionHybridLayoutDelegate
+#pragma mark - LWZCollectionViewMultipleLayoutDelegate
 
 - (LWZCollectionLayoutType)layout:(__kindof LWZCollectionViewLayout *)layout layoutTypeForItemsInSection:(NSInteger)index {
     return [_provider sectionAtIndex:index].layoutType;
 }
 
-#pragma mark - LWZCollectionCompositionalLayoutDelegate
+#pragma mark - LWZCollectionViewCompositionalLayoutDelegate
 
 - (BOOL)layout:(__kindof LWZCollectionViewLayout *)layout isOrthogonalScrollingInSection:(NSInteger)index {
     return [_provider sectionAtIndex:index].isOrthogonalScrolling;

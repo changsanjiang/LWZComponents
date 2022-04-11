@@ -32,7 +32,7 @@
     
     _presenter = [LWZCollectionViewPresenter.alloc init];
     
-    LWZCollectionWaterfallFlowLayout *layout = [LWZCollectionWaterfallFlowLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
+    LWZCollectionViewWaterfallFlowLayout *layout = [LWZCollectionViewWaterfallFlowLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
     _collectionView = [LWZCollectionView.alloc initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionView.dataSource = _presenter;
     [self.view addSubview:_collectionView];

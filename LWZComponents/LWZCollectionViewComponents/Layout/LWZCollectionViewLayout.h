@@ -2,22 +2,28 @@
 //  LWZCollectionViewLayout.h
 //  LWZCollectionViewComponents_Example
 //
-//  Created by changsanjiang on 2020/11/13.
+//  Created by BlueDancer on 2020/11/13.
 //  Copyright © 2020 changsanjiang@gmail.com. All rights reserved.
 //
 
 #import "LWZCollectionDefines.h"
-#import "LWZCollectionLayoutContentContainer.h"
-#import "LWZCollectionLayoutFittingSize.h"
+#import "LWZCollectionLayoutContainer.h"
+#import "UICollectionViewLayoutAttributes+LWZCollectionAdditions.h"
 @protocol LWZCollectionViewLayoutObserver, LWZCollectionViewLayoutDelegate;
+@class LWZCollectionLayoutSolver;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface LWZCollectionViewLayout : UICollectionViewLayout
+@interface LWZCollectionViewLayout : UICollectionViewLayout<LWZCollectionLayout>
+
+@property(class, nonatomic, readonly) Class layoutSolverClass;
+
 - (instancetype)initWithScrollDirection:(UICollectionViewScrollDirection)scrollDirection;
 - (instancetype)initWithScrollDirection:(UICollectionViewScrollDirection)scrollDirection delegate:(nullable id<LWZCollectionViewLayoutDelegate>)delegate;
 @property (nonatomic, weak, nullable) id<LWZCollectionViewLayoutDelegate> delegate;
 
 @property (nonatomic, readonly) UICollectionViewScrollDirection scrollDirection;
+
+@property (nonatomic, strong, readonly) LWZCollectionLayoutSolver *layoutSolver;
 
 - (void)prepareLayoutForCollectionSize:(CGSize)size contentInsets:(UIEdgeInsets)contentInsets;
 
@@ -31,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGRect)layoutFrameForSection:(NSInteger)section;
 
-- (void)enumerateLayoutAttributesWithElementCategory:(UICollectionElementCategory)category usingBlock:(void(NS_NOESCAPE ^)(UICollectionViewLayoutAttributes *attributes, NSUInteger idx, BOOL *stop))block;
+- (void)enumerateLayoutAttributesWithElementCategory:(UICollectionElementCategory)category usingBlock:(void(NS_NOESCAPE ^)(UICollectionViewLayoutAttributes *attributes, BOOL *stop))block;
 - (nullable NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesObjectsForElementCategory:(UICollectionElementCategory)category;
 - (nullable NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesObjectsForElementCategory:(UICollectionElementCategory)category inSection:(NSInteger)section;
 
@@ -52,9 +58,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol LWZCollectionViewLayoutObserver <NSObject>
 @optional
-- (void)layout:(__kindof LWZCollectionViewLayout *)layout willPrepareLayoutInContainer:(LWZCollectionLayoutCollectionContentContainer *)container;
+- (void)layout:(__kindof LWZCollectionViewLayout *)layout willPrepareLayoutInContainer:(LWZCollectionLayoutContainer *)container;
 
-- (void)layout:(__kindof LWZCollectionViewLayout *)layout didFinishPreparingInContainer:(LWZCollectionLayoutCollectionContentContainer *)container;
+- (void)layout:(__kindof LWZCollectionViewLayout *)layout didFinishPreparingInContainer:(LWZCollectionLayoutContainer *)container;
 @end
 
  
@@ -206,6 +212,14 @@ NS_ASSUME_NONNULL_BEGIN
 // [H]水平布局
 
 #pragma mark - weight
+
+@protocol LWZCollectionViewWeightLayoutDelegate <LWZCollectionViewLayoutDelegate>
+@optional
+/// (0, 1]
+/// 如果未实现, 默认为1
+- (CGFloat)layout:(__kindof LWZCollectionViewLayout *)layout layoutWeightForItemAtIndexPath:(NSIndexPath *)indexPath;
+@end
+
 /**
  \code
  根据比重布局
@@ -242,20 +256,18 @@ NS_ASSUME_NONNULL_BEGIN
  
  \endcode
  */
-@interface LWZCollectionWeightLayout : LWZCollectionViewLayout
-
-@end
-
-@protocol LWZCollectionWeightLayoutDelegate <LWZCollectionViewLayoutDelegate>
-@optional
-/// (0, 1]
-/// 如果未实现, 默认为1
-- (CGFloat)layout:(__kindof LWZCollectionViewLayout *)layout weightForItemAtIndexPath:(NSIndexPath *)indexPath;
+@interface LWZCollectionViewWeightLayout : LWZCollectionViewLayout
+@property (nonatomic, weak, nullable) id<LWZCollectionViewWeightLayoutDelegate> delegate;
 @end
 
 
 #pragma mark - list
- 
+
+@protocol LWZCollectionViewListLayoutDelegate <LWZCollectionViewLayoutDelegate>
+@optional
+- (LWZCollectionLayoutAlignment)layout:(__kindof LWZCollectionViewLayout *)layout layoutAlignmentForItemAtIndexPath:(NSIndexPath *)indexPath;
+@end
+
 /**
  列表布局, 列数[v]为1, 行数[h]为1, interitemSpacing 将无效;
  
@@ -293,23 +305,28 @@ NS_ASSUME_NONNULL_BEGIN
  |                                               |
  +-----------------------------------------------+
  */
-@interface LWZCollectionListLayout : LWZCollectionViewLayout
-
-@end
-
-@protocol LWZCollectionListLayoutDelegate <LWZCollectionViewLayoutDelegate>
-@optional
-- (LWZCollectionLayoutAlignment)layout:(__kindof LWZCollectionViewLayout *)layout layoutAlignmentForItemAtIndexPath:(NSIndexPath *)indexPath;
+@interface LWZCollectionViewListLayout : LWZCollectionViewLayout
+@property (nonatomic, weak, nullable) id<LWZCollectionViewListLayoutDelegate> delegate;
 @end
 
 #pragma mark - waterfall flow
+
+
+
+@protocol LWZCollectionViewWaterfallFlowLayoutDelegate <LWZCollectionViewLayoutDelegate>
+@optional
+/// (0, ...)
+/// 如果未实现, 默认为1
+- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout layoutNumberOfArrangedItemsPerLineInSection:(NSInteger)section;
+@end
+
 /**
  \code
  瀑布流布局
  [V] 垂直布局时, 每行的item平分宽度, 高度不一
  [H] 水平布局同理
  
- +-----------[V]----------+ ==> numberOfArrangedItemsPerLineInSection == 2
+ +-----------[V]----------+ ==> layoutNumberOfArrangedItemsPerLineInSection == 2
  |                        |
  |  +-------+  +-------+  |
  |  |       |  |       |  |
@@ -331,7 +348,7 @@ NS_ASSUME_NONNULL_BEGIN
  |                        |
  +------------------------+
  
- +-------------[H]--------------------+ ==> numberOfArrangedItemsPerLineInSection == 2
+ +-------------[H]--------------------+ ==> layoutNumberOfArrangedItemsPerLineInSection == 2
  |                                    |
  |  +-------+  +-----------+  +--->   |
  |  |       |  |           |  |       |
@@ -346,15 +363,8 @@ NS_ASSUME_NONNULL_BEGIN
  +------------------------------------+
  \endcode
  */
-@interface LWZCollectionWaterfallFlowLayout : LWZCollectionViewLayout
-
-@end
-
-@protocol LWZCollectionWaterfallFlowLayoutDelegate <LWZCollectionViewLayoutDelegate>
-@optional
-/// (0, ...)
-/// 如果未实现, 默认为1
-- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout numberOfArrangedItemsPerLineInSection:(NSInteger)section;
+@interface LWZCollectionViewWaterfallFlowLayout : LWZCollectionViewLayout
+@property (nonatomic, weak, nullable) id<LWZCollectionViewWaterfallFlowLayoutDelegate> delegate;
 @end
 
 #pragma mark - restricted layout
@@ -406,12 +416,17 @@ NS_ASSUME_NONNULL_BEGIN
  +----------------------------------------------+
  \endcode
  */
-@interface LWZCollectionRestrictedLayout : LWZCollectionViewLayout
+@interface LWZCollectionViewRestrictedLayout : LWZCollectionViewLayout
 
 @end
 
 
 #pragma mark - template layout
+
+@protocol LWZCollectionViewTemplateLayoutDelegate <LWZCollectionViewLayoutDelegate>
+- (NSArray<LWZCollectionTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)section;
+@end
+
 
 /**
  模板布局: 定义一套模板, cell 的位置将根据模板描述进行布局.
@@ -469,76 +484,34 @@ NS_ASSUME_NONNULL_BEGIN
   +--------------------------------------------+
  \endcode
  */
-@interface LWZCollectionTemplateLayout : LWZCollectionViewLayout
+@interface LWZCollectionViewTemplateLayout : LWZCollectionViewLayout
+@property (nonatomic, weak, nullable) id<LWZCollectionViewTemplateLayoutDelegate> delegate;
 
 @end
 
-@protocol LWZCollectionTemplateLayoutDelegate <LWZCollectionViewLayoutDelegate>
-- (NSArray<LWZCollectionLayoutTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)section;
-@end
+#pragma mark - multiple layout
 
-
-#pragma mark - hybrid layout
-
-/**
- 多种方式混合布局
- 
- \code
- +-----------------------
- |
- |  Weight Layout
- |
- |  List Layout
- |
- |  WaterfallFlow Layout
- |
- |  Restricted Layout
- |
- |  Template Layout
- |
- +-----------------------
- \endcode
- */
-@interface LWZCollectionHybridLayout : LWZCollectionViewLayout
-
-@end
-
-@protocol LWZCollectionHybridLayoutDelegate <
-    LWZCollectionWeightLayoutDelegate,
-    LWZCollectionListLayoutDelegate,
-    LWZCollectionWaterfallFlowLayoutDelegate,
-    LWZCollectionTemplateLayoutDelegate
+@protocol LWZCollectionViewMultipleLayoutDelegate <
+    LWZCollectionViewWeightLayoutDelegate,
+    LWZCollectionViewListLayoutDelegate,
+    LWZCollectionViewWaterfallFlowLayoutDelegate,
+    LWZCollectionViewTemplateLayoutDelegate
 >
 
 /// 返回指定section的布局方式
 - (LWZCollectionLayoutType)layout:(__kindof LWZCollectionViewLayout *)layout layoutTypeForItemsInSection:(NSInteger)section;
 @end
 
+/// 多种方式混合布局
+@interface LWZCollectionViewMultipleLayout : LWZCollectionViewLayout
+@property (nonatomic, weak, nullable) id<LWZCollectionViewMultipleLayoutDelegate> delegate;
+
+@end
+
 
 #pragma mark - compositional layout
 
-/**
- 这个 layout 类似于 `UICollectionViewCompositionalLayout`, 但不完全一样, 是存在缺陷的.
- OrthogonalContent 区域的 cell 会在单独的 collectionView 中显示, 通过原来的 CollectionView 无法进行 cell 及 indexPath 的转换.
- 缺陷如下:
- 
- 缺陷1: [collectionView cellForItemAtIndexPath:] 可能获取到不到对应 cell
-        替代方案: 使用 [layout isOrthogonalScrollingInSection:] & [layout orthogonalScrollingCellForItemAtIndexPath:];
- 
- 缺陷2: [collectionView indexPathForCell:] 可能获取到不到对应 indexPath
-        替代方案: 使用 [(UICollectionView *)cell.superview indexPathForCell:];
- 
- 缺陷3: collectionView:willDisplayCell:forItemAtIndexPath: 及 collectionView:didEndDisplayingCell:forItemAtIndexPath: 这两个方法在滑动 OrthogonalContent 区域, cell 可见状态发生变化时, 对应的 delegate 方法会触发, 但在区域外滑动, 将不会被触发.
-        目前未解决
- 
- 缺陷4: delete, move 等 updates 相关方法可能无法正常工作.
- */
-@interface LWZCollectionCompositionalLayout : LWZCollectionHybridLayout
-- (BOOL)isOrthogonalScrollingInSection:(NSInteger)section;
-- (nullable __kindof UICollectionViewCell *)orthogonalScrollingCellForItemAtIndexPath:(NSIndexPath *)indexPath;
-@end
-
-@protocol LWZCollectionCompositionalLayoutDelegate <LWZCollectionHybridLayoutDelegate>
+@protocol LWZCollectionViewCompositionalLayoutDelegate <LWZCollectionViewMultipleLayoutDelegate>
 @optional
 - (BOOL)layout:(__kindof LWZCollectionViewLayout *)layout isOrthogonalScrollingInSection:(NSInteger)section;
 /**
@@ -578,5 +551,29 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (CGSize)layout:(__kindof LWZCollectionViewLayout *)layout layoutSizeToFit:(CGSize)fittingSize forOrthogonalContentInSection:(NSInteger)section scrollDirection:(UICollectionViewScrollDirection)scrollDirection;
 - (LWZCollectionLayoutContentOrthogonalScrollingBehavior)layout:(__kindof LWZCollectionViewLayout *)layout orthogonalContentScrollingBehaviorInSection:(NSInteger)section;
+@end
+
+/**
+ 这个 layout 类似于 `UICollectionViewCompositionalLayout`, 但不完全一样, 是存在缺陷的.
+ OrthogonalContent 区域的 cell 会在单独的 collectionView 中显示, 通过原来的 CollectionView 无法进行 cell 及 indexPath 的转换.
+ 缺陷如下:
+ 
+ 缺陷1: [collectionView cellForItemAtIndexPath:] 可能获取到不到对应 cell
+        替代方案: 使用 [layout isOrthogonalScrollingInSection:] & [layout orthogonalScrollingCellForItemAtIndexPath:];
+ 
+ 缺陷2: [collectionView indexPathForCell:] 可能获取到不到对应 indexPath
+        替代方案: 使用 [(UICollectionView *)cell.superview indexPathForCell:];
+ 
+ 缺陷3: collectionView:willDisplayCell:forItemAtIndexPath: 及 collectionView:didEndDisplayingCell:forItemAtIndexPath: 这两个方法在滑动 OrthogonalContent 区域, cell 可见状态发生变化时, 对应的 delegate 方法会触发, 但在区域外滑动, 将不会被触发.
+        目前未解决
+ 
+ 缺陷4: delete, move 等 updates 相关方法可能无法正常工作.
+ */
+@interface LWZCollectionViewCompositionalLayout : LWZCollectionViewMultipleLayout
+
+@property (nonatomic, weak, nullable) id<LWZCollectionViewCompositionalLayoutDelegate> delegate;
+
+- (BOOL)isOrthogonalScrollingInSection:(NSInteger)section;
+- (nullable __kindof UICollectionViewCell *)orthogonalScrollingCellForItemAtIndexPath:(NSIndexPath *)indexPath;
 @end
 NS_ASSUME_NONNULL_END

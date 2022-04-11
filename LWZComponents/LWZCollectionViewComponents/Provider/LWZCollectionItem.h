@@ -2,7 +2,7 @@
 //  LWZCollectionItem.h
 //  LWZAppComponents
 //
-//  Created by changsanjiang on 2021/8/25.
+//  Created by 蓝舞者 on 2021/8/25.
 //
 
 #import "LWZCollectionDefines.h"
@@ -36,11 +36,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) void(^tapHandler)(__kindof LWZCollectionItem *item, NSIndexPath *indexPath);
 @end
 
-@interface LWZCollectionItem (LWZCollectionWeightLayoutAdditions)
+@interface LWZCollectionItem (LWZCollectionViewWeightLayoutAdditions)
 @property (nonatomic) CGFloat weight;
 @end
 
-@interface LWZCollectionItem (LWZCollectionListLayoutAdditions)
+@interface LWZCollectionItem (LWZCollectionViewListLayoutAdditions)
 @property (nonatomic) LWZCollectionLayoutAlignment layoutAlignment;
 @end
 

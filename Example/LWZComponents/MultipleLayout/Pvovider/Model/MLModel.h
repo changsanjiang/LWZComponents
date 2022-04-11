@@ -1,5 +1,5 @@
 //
-//  HLModel.h
+//  MLModel.h
 //  LWZCollectionViewComponents_Example
 //
 //  Created by changsanjiang on 2021/12/25.
@@ -11,7 +11,7 @@
 #import "WFLModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface HLModel : NSObject
+@interface MLModel : NSObject
 @property (nonatomic, strong, nullable) WLDetailModel *wl_Model;
 @property (nonatomic, strong, nullable) NSArray<RLModel *> *rl_List;
 @property (nonatomic, strong, nullable) NSArray<WFLModel *> *wfl_list;

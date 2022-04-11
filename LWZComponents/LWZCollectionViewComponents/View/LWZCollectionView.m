@@ -2,7 +2,7 @@
 //  LWZCollectionView.m
 //  LWZFoundation
 //
-//  Created by changsanjiang on 2020/12/22.
+//  Created by BlueDancer on 2020/12/22.
 //
 
 #import "LWZCollectionView.h"
@@ -36,6 +36,24 @@
 - (void)setDelegate:(nullable id<UICollectionViewDelegate>)delegate {
     _mDelegateProxy2.delegate = delegate;
     [super setDelegate:delegate];
+}
+
+#pragma mark - LWZCollectionViewCompositionalLayout
+
+- (nullable UICollectionViewCell *)cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if ( [self.collectionViewLayout isKindOfClass:LWZCollectionViewCompositionalLayout.class] ) {
+        if ( [(LWZCollectionViewCompositionalLayout *)self.collectionViewLayout isOrthogonalScrollingInSection:indexPath.section] ) {
+            return [(LWZCollectionViewCompositionalLayout *)self.collectionViewLayout orthogonalScrollingCellForItemAtIndexPath:indexPath];
+        }
+    }
+    return [super cellForItemAtIndexPath:indexPath];
+}
+
+- (nullable NSIndexPath *)indexPathForCell:(UICollectionViewCell *)cell {
+    if ( [self.collectionViewLayout isKindOfClass:LWZCollectionViewCompositionalLayout.class] ) {
+        return [(UICollectionView *)cell.superview indexPathForCell:cell];
+    }
+    return [super indexPathForCell:cell];
 }
 
 #ifdef DEBUG

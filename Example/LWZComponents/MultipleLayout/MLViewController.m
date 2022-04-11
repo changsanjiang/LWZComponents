@@ -1,23 +1,25 @@
 //
-//  HLViewController.m
+//  MLViewController.m
 //  LWZCollectionViewComponents_Example
 //
 //  Created by changsanjiang on 2021/12/25.
 //  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
 //
+//  多种方式混合布局
+//
 
-#import "HLViewController.h"
+#import "MLViewController.h"
 #import "CommonDependencies.h"
-#import "HLModelProvider.h"
-#import "HLProvider.h"
+#import "MLModelProvider.h"
+#import "MLProvider.h"
 
-@interface HLViewController ()
+@interface MLViewController ()
 @property (nonatomic, strong) LWZCollectionView *collectionView;
 @property (nonatomic, strong) LWZCollectionViewPresenter *presenter;
-@property (nonatomic, strong) HLProvider *provider;
+@property (nonatomic, strong) MLProvider *provider;
 @end
 
-@implementation HLViewController
+@implementation MLViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +34,7 @@
     
     _presenter = [LWZCollectionViewPresenter.alloc init];
     
-    LWZCollectionViewLayout *layout = [LWZCollectionHybridLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
+    LWZCollectionViewLayout *layout = [LWZCollectionViewMultipleLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:_presenter];
     layout.sectionHeadersPinToVisibleBounds = YES;
     _collectionView = [LWZCollectionView.alloc initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionView.dataSource = _presenter;
@@ -42,7 +44,7 @@
     }];
     
     __weak typeof(self) _self = self;
-    [HLModelProvider requestDataWithComplete:^(HLModel * _Nullable model, NSError * _Nullable error) {
+    [MLModelProvider requestDataWithComplete:^(MLModel * _Nullable model, NSError * _Nullable error) {
         __strong typeof(_self) self = _self;
         if ( self == nil ) return;
         if ( error != nil ) {
@@ -50,7 +52,7 @@
             return;
         }
         
-        self.provider = [HLProvider.alloc initWithModel:model];
+        self.provider = [MLProvider.alloc initWithModel:model];
         self.provider.userItemTapHandler = ^(NSInteger userId) {
             __strong typeof(_self) self = _self;
             if ( self == nil ) return;

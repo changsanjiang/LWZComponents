@@ -2,7 +2,7 @@
 //  LWZCollectionSectionHeaderFooter.m
 //  LWZAppComponents
 //
-//  Created by changsanjiang on 2021/8/25.
+//  Created by 蓝舞者 on 2021/8/25.
 //
 
 #import "LWZCollectionSectionHeaderFooter.h"

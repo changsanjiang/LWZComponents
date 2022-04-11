@@ -59,7 +59,7 @@
                     [make addItem:CLItem.alloc.init];
                 }
 
-                make.layoutTemplateContainerGroups = [LWZCollectionLayoutTemplate build:^(LWZCollectionTemplateBuilder * _Nonnull make) {
+                make.layoutTemplateContainerGroups = [LWZCollectionTemplate templateWithBuildBlock:^(LWZCollectionTemplateBuilder * _Nonnull make) {
                     // 添加1个容器组
                     make.addGroup(^(LWZCollectionTemplateGroupBuilder * _Nonnull group) {
                         // 设置容器组的宽度等于父布局的宽度

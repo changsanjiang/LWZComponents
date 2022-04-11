@@ -2,11 +2,11 @@
 //  LWZCollectionDefines.h
 //  LWZCollectionViewComponents
 //
-//  Created by changsanjiang on 2021/11/25.
+//  Created by 蓝舞者 on 2021/11/25.
 //
 
 #import <UIKit/UIKit.h>
- 
+
 typedef NS_ENUM(NSUInteger, LWZCollectionLayoutType) {
     /// 未指定的, 将根据collectionView的layout的类型进行布局. 例如: collectionView.layout为weightLayout, 则按照weight布局
     LWZCollectionLayoutTypeUnspecified,
@@ -34,10 +34,17 @@ typedef NS_ENUM(NSUInteger, LWZCollectionLayoutContentOrthogonalScrollingBehavio
     LWZCollectionLayoutContentOrthogonalScrollingBehaviorPaging,
 };
 
-typedef NS_ENUM(NSUInteger, LWZCollectionLayoutTemplateDimensionSemantic) {
-    LWZCollectionLayoutTemplateDimensionSemanticFractionalWidth,
-    LWZCollectionLayoutTemplateDimensionSemanticFractionalHeight,
-    LWZCollectionLayoutTemplateDimensionSemanticAbsolute
+typedef NS_ENUM(NSUInteger, LWZCollectionTemplateDimensionSemantic) {
+    LWZCollectionTemplateDimensionSemanticFractionalWidth,
+    LWZCollectionTemplateDimensionSemanticFractionalHeight,
+    LWZCollectionTemplateDimensionSemanticAbsolute
+};
+
+typedef NS_ENUM(NSUInteger, LWZCollectionDecorationCategory) {
+    LWZCollectionDecorationCategorySection,
+    LWZCollectionDecorationCategoryHeader,
+    LWZCollectionDecorationCategoryItem,
+    LWZCollectionDecorationCategoryFooter
 };
 
 NS_ASSUME_NONNULL_BEGIN
@@ -47,4 +54,28 @@ FOUNDATION_EXTERN NSInteger const LWZCollectionDecorationSeparatorZPosition;
 
 FOUNDATION_EXTERN NSInteger const LWZCollectionOrthogonalScrollingGroupViewZPosition;
 
+FOUNDATION_EXTERN NSInteger const LWZFittingSizeMaxBoundary;
+FOUNDATION_EXTERN CGFloat   const LWZLayoutSizeMinimumValue;
+
+
+@protocol LWZCollectionLayout <NSObject>
+- (NSInteger)numberOfItemsInSection:(NSInteger)section;
+- (UIEdgeInsets)edgeSpacingsForSectionAtIndex:(NSInteger)section;
+- (UIEdgeInsets)contentInsetsForSectionAtIndex:(NSInteger)section;
+- (CGFloat)minimumLineSpacingForSectionAtIndex:(NSInteger)section;
+- (CGFloat)minimumInteritemSpacingForSectionAtIndex:(NSInteger)section;
+
+- (CGSize)layoutSizeToFit:(CGSize)fittingSize forHeaderInSection:(NSInteger)section scrollDirection:(UICollectionViewScrollDirection)scrollDirection;
+- (CGSize)layoutSizeToFit:(CGSize)fittingSize forItemAtIndexPath:(NSIndexPath *)indexPath scrollDirection:(UICollectionViewScrollDirection)scrollDirection;
+- (CGSize)layoutSizeToFit:(CGSize)fittingSize forFooterInSection:(NSInteger)section scrollDirection:(UICollectionViewScrollDirection)scrollDirection;
+
+- (CGFloat)zIndexForHeaderInSection:(NSInteger)section;
+- (CGFloat)zIndexForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)zIndexForFooterInSection:(NSInteger)section;
+
+- (nullable NSString *)elementKindForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+- (CGRect)relativeRectToFit:(CGRect)fitsRect forDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)zIndexForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+- (nullable id)userInfoForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+@end
 NS_ASSUME_NONNULL_END

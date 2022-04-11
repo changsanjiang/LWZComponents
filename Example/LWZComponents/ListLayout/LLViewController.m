@@ -37,7 +37,7 @@
     CGRect frame = CGRectMake(12, 20, self.view.bounds.size.width - 12 * 2, 88);
     // 与 collectionView 顶部对齐
     LWZCollectionViewPresenter *presenter = [LWZCollectionViewPresenter.alloc initWithProvider:[LLProvider.alloc initWithAlignment:LWZCollectionLayoutAlignmentStart]];
-    LWZCollectionListLayout *collectionListLayout = [LWZCollectionListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionHorizontal delegate:presenter];
+    LWZCollectionViewListLayout *collectionListLayout = [LWZCollectionViewListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionHorizontal delegate:presenter];
     LWZCollectionView *collectionView = [LWZCollectionView.alloc initWithFrame:frame collectionViewLayout:collectionListLayout];
     collectionView.dataSource = presenter;
     collectionView.backgroundColor = UIColor.blackColor;
@@ -48,7 +48,7 @@
     frame.origin.y = CGRectGetMaxY(frame) + 20;
     // 与 collectionView1 中心对齐
     presenter = [LWZCollectionViewPresenter.alloc initWithProvider:[LLProvider.alloc initWithAlignment:LWZCollectionLayoutAlignmentCenter]];
-    collectionListLayout = [LWZCollectionListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionHorizontal delegate:presenter];
+    collectionListLayout = [LWZCollectionViewListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionHorizontal delegate:presenter];
     collectionView = [LWZCollectionView.alloc initWithFrame:frame collectionViewLayout:collectionListLayout];
     collectionView.dataSource = presenter;
     collectionView.backgroundColor = UIColor.blackColor;
@@ -59,7 +59,7 @@
     frame.origin.y = CGRectGetMaxY(frame) + 20;
     // 与 collectionView 底部对齐
     presenter = [LWZCollectionViewPresenter.alloc initWithProvider:[LLProvider.alloc initWithAlignment:LWZCollectionLayoutAlignmentEnd]];
-    collectionListLayout = [LWZCollectionListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionHorizontal delegate:presenter];
+    collectionListLayout = [LWZCollectionViewListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionHorizontal delegate:presenter];
     collectionView = [LWZCollectionView.alloc initWithFrame:frame collectionViewLayout:collectionListLayout];
     collectionView.dataSource = presenter;
     collectionView.backgroundColor = UIColor.blackColor;
@@ -73,7 +73,7 @@
     frame.origin.y = CGRectGetMaxY(frame) + 20;
     // 与 collectionView 底部对齐
     presenter = [LWZCollectionViewPresenter.alloc initWithProvider:[LLProvider.alloc initWithAlignment:LWZCollectionLayoutAlignmentStart]];
-    collectionListLayout = [LWZCollectionListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:presenter];
+    collectionListLayout = [LWZCollectionViewListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:presenter];
     collectionView = [LWZCollectionView.alloc initWithFrame:frame collectionViewLayout:collectionListLayout];
     collectionView.dataSource = presenter;
     collectionView.backgroundColor = UIColor.blackColor;
@@ -84,7 +84,7 @@
     frame.origin.y = CGRectGetMaxY(frame) + 20;
     // 与 collectionView 底部对齐
     presenter = [LWZCollectionViewPresenter.alloc initWithProvider:[LLProvider.alloc initWithAlignment:LWZCollectionLayoutAlignmentCenter]];
-    collectionListLayout = [LWZCollectionListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:presenter];
+    collectionListLayout = [LWZCollectionViewListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:presenter];
     collectionView = [LWZCollectionView.alloc initWithFrame:frame collectionViewLayout:collectionListLayout];
     collectionView.dataSource = presenter;
     collectionView.backgroundColor = UIColor.blackColor;
@@ -95,7 +95,7 @@
     frame.origin.y = CGRectGetMaxY(frame) + 20;
     // 与 collectionView 底部对齐
     presenter = [LWZCollectionViewPresenter.alloc initWithProvider:[LLProvider.alloc initWithAlignment:LWZCollectionLayoutAlignmentEnd]];
-    collectionListLayout = [LWZCollectionListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:presenter];
+    collectionListLayout = [LWZCollectionViewListLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:presenter];
     collectionView = [LWZCollectionView.alloc initWithFrame:frame collectionViewLayout:collectionListLayout];
     collectionView.dataSource = presenter;
     collectionView.backgroundColor = UIColor.blackColor;

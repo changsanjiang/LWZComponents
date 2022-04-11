@@ -25,7 +25,7 @@
                 
                 // 设置 sectionHeaderView
                 WLCollectionSectionHeaderFooter *header = [WLCollectionSectionHeaderFooter.alloc initWithTitle:[NSAttributedString sj_UIKitText:^(id<SJUIKitTextMakerProtocol>  _Nonnull make) {
-                    make.append(@"设置比重: 每行显示三个item");
+                    make.append(@"Header1");
                     make.font([UIFont boldSystemFontOfSize:18]);
                 }]];
                 header.contentInsets = UIEdgeInsetsMake(12, 12, 0, 12);
@@ -62,7 +62,7 @@
                 
                 // 设置 sectionHeaderView
                 WLCollectionSectionHeaderFooter *header = [WLCollectionSectionHeaderFooter.alloc initWithTitle:[NSAttributedString sj_UIKitText:^(id<SJUIKitTextMakerProtocol>  _Nonnull make) {
-                    make.append(@"Header: 默认比重为 1.0, 即每行显示一个item");
+                    make.append(@"Header2");
                     make.font([UIFont boldSystemFontOfSize:18]);
                 }]];
                 header.contentInsets = UIEdgeInsetsMake(12, 12, 0, 12);

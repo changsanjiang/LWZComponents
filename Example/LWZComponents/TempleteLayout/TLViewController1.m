@@ -30,7 +30,7 @@
 }
 @end
 
-@interface TLViewController1 ()<UICollectionViewDataSource, UICollectionViewDelegate, LWZCollectionTemplateLayoutDelegate>
+@interface TLViewController1 ()<UICollectionViewDataSource, UICollectionViewDelegate, LWZCollectionViewTemplateLayoutDelegate>
 @property (nonatomic, strong) LWZCollectionViewLayout *templateLayout;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic) CGFloat testMargin;
@@ -47,7 +47,7 @@ static NSArray<UIColor *> *colors;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.title = NSStringFromClass(self.class);
 
-    LWZCollectionViewLayout *layout = [LWZCollectionTemplateLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:self];
+    LWZCollectionViewLayout *layout = [LWZCollectionViewTemplateLayout.alloc initWithScrollDirection:UICollectionViewScrollDirectionVertical delegate:self];
     _collectionView = [UICollectionView.alloc initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionView.backgroundColor = UIColor.whiteColor;
     _collectionView.dataSource = self;
@@ -106,9 +106,9 @@ static NSArray<UIColor *> *colors;
 
 #pragma mark - LWZCollectionTemplateLayoutDelegate
 
-- (NSArray<LWZCollectionLayoutTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)section {
+- (NSArray<LWZCollectionTemplateGroup *> *)layout:(__kindof LWZCollectionViewLayout *)layout layoutTemplateContainerGroupsInSection:(NSInteger)section {
   
-    return [LWZCollectionLayoutTemplate build:^(LWZCollectionTemplateBuilder * _Nonnull make) {
+    return [LWZCollectionTemplate templateWithBuildBlock:^(LWZCollectionTemplateBuilder * _Nonnull make) {
         /**
             Container 1
              |

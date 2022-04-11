@@ -1,18 +1,18 @@
 //
-//  HLModelProvider.m
+//  MLModelProvider.m
 //  LWZCollectionViewComponents_Example
 //
 //  Created by changsanjiang on 2021/12/25.
 //  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
 //
 
-#import "HLModelProvider.h"
+#import "MLModelProvider.h"
 #import "WLModelProvider.h"
 #import "RLModelProvider.h"
 #import "WFLModelProvider.h"
 
-@implementation HLModelProvider
-+ (void)requestDataWithComplete:(void(^)(HLModel *_Nullable model, NSError *_Nullable error))completionHandler {
+@implementation MLModelProvider
++ (void)requestDataWithComplete:(void(^)(MLModel *_Nullable model, NSError *_Nullable error))completionHandler {
     __block WLDetailModel *wl_model;
     __block NSArray<RLModel *> *rl_list;
     __block NSArray<WFLModel *> *wfl_list;
@@ -41,9 +41,9 @@
     }];
 
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        HLModel *model = nil;
+        MLModel *model = nil;
         if ( mError == nil ) {
-            model = [HLModel new];
+            model = [MLModel new];
             model.wl_Model = wl_model;
             model.rl_List = rl_list;
             model.wfl_list = wfl_list;

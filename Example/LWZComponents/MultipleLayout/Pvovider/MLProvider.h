@@ -1,5 +1,5 @@
 //
-//  HLProvider.h
+//  MLProvider.h
 //  LWZCollectionViewComponents_Example
 //
 //  Created by changsanjiang on 2021/12/25.
@@ -7,13 +7,13 @@
 //
 
 #import "LWZCollectionProvider.h"
-#import "HLModel.h"
+#import "MLModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HLProvider : LWZCollectionProvider
+@interface MLProvider : LWZCollectionProvider
 
-- (instancetype)initWithModel:(HLModel *)model;
+- (instancetype)initWithModel:(MLModel *)model;
 
 
 @property (nonatomic, copy, nullable) void(^userItemTapHandler)(NSInteger userId);

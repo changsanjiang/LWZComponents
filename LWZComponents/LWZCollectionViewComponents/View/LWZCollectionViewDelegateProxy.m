@@ -2,7 +2,7 @@
 //  LWZCollectionViewDelegateProxy.m
 //  SJTestAutoLayout_Example
 //
-//  Created by changsanjiang on 2021/11/13.
+//  Created by 蓝舞者 on 2021/11/13.
 //  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
 //
 

@@ -1,35 +1,35 @@
 //
-//  LWZCollectionLayoutContentContainer.m
+//  LWZCollectionLayoutContainer.m
 //  SJTestAutoLayout_Example
 //
-//  Created by changsanjiang on 2021/11/9.
+//  Created by 蓝舞者 on 2021/11/9.
 //  Copyright © 2021 changsanjiang@gmail.com. All rights reserved.
 //
 
-#import "LWZCollectionLayoutContentContainer.h"
+#import "LWZCollectionLayoutContainer.h"
 
-@implementation LWZCollectionLayoutCollectionContentContainer
-- (instancetype)initWithCollectionSize:(CGSize)collectionSize direction:(UICollectionViewScrollDirection)direction collectionContentInsets:(UIEdgeInsets)collectionContentInsets collectionSafeAreaInsets:(UIEdgeInsets)safeAreaInsets {
+@implementation LWZCollectionLayoutContainer
+- (instancetype)initWithCollectionSize:(CGSize)collectionSize direction:(UICollectionViewScrollDirection)direction collectionContentInsets:(UIEdgeInsets)collectionContentInsets {
     self = [super init];
     if ( self ) {
         _collectionSize = collectionSize;
         _layoutDirection = direction;
         
-        CGFloat layoutRangeMin = 0;
-        CGFloat layoutRangeMax = 0;
+        CGFloat minLayoutRange = 0;
+        CGFloat maxLayoutRange = 0;
         switch ( direction ) {
             case UICollectionViewScrollDirectionVertical: {
-                layoutRangeMin = 0;
-                layoutRangeMax = collectionSize.width - (collectionContentInsets.left + collectionContentInsets.right);
+                minLayoutRange = 0;
+                maxLayoutRange = collectionSize.width - (collectionContentInsets.left + collectionContentInsets.right);
             }
                 break;
             case UICollectionViewScrollDirectionHorizontal: {
-                layoutRangeMin = 0;
-                layoutRangeMax = collectionSize.height - (collectionContentInsets.top + collectionContentInsets.bottom);
+                minLayoutRange = 0;
+                maxLayoutRange = collectionSize.height - (collectionContentInsets.top + collectionContentInsets.bottom);
             }
                 break;
         }
-        _layoutRange = UIFloatRangeMake(layoutRangeMin, layoutRangeMax);
+        _layoutRange = UIFloatRangeMake(minLayoutRange, maxLayoutRange);
         
         
         CGSize layoutContainerSize = CGSizeZero;
@@ -41,25 +41,25 @@
 }
 
 - (instancetype)initWithCollectionSize:(CGSize)collectionSize direction:(UICollectionViewScrollDirection)direction collectionContentInsets:(UIEdgeInsets)contentInsets collectionSafeAreaInsets:(UIEdgeInsets)collectionSafeAreaInsets ignoredCollectionSafeAreaInsets:(BOOL)isIgnoredSafeAreaInsets {
-    self = [self initWithCollectionSize:collectionSize direction:direction collectionContentInsets:contentInsets collectionSafeAreaInsets:collectionSafeAreaInsets];
+    self = [self initWithCollectionSize:collectionSize direction:direction collectionContentInsets:contentInsets];
     if ( self ) {
         if ( !isIgnoredSafeAreaInsets ) {
             _layoutInsets = collectionSafeAreaInsets;
-            CGFloat layoutRangeMin = _layoutRange.minimum;
-            CGFloat layoutRangeMax = _layoutRange.maximum;
+            CGFloat minLayoutRange = _layoutRange.minimum;
+            CGFloat maxLayoutRange = _layoutRange.maximum;
             switch ( direction ) {
                 case UICollectionViewScrollDirectionVertical: {
-                    layoutRangeMin += collectionSafeAreaInsets.left;
-                    layoutRangeMax -= collectionSafeAreaInsets.right;
+                    minLayoutRange += collectionSafeAreaInsets.left;
+                    maxLayoutRange -= collectionSafeAreaInsets.right;
                 }
                     break;
                 case UICollectionViewScrollDirectionHorizontal: {
-                    layoutRangeMin += collectionSafeAreaInsets.top;
-                    layoutRangeMax -= collectionSafeAreaInsets.bottom;
+                    minLayoutRange += collectionSafeAreaInsets.top;
+                    maxLayoutRange -= collectionSafeAreaInsets.bottom;
                 }
                     break;
             }
-            _layoutRange = UIFloatRangeMake(layoutRangeMin, layoutRangeMax);
+            _layoutRange = UIFloatRangeMake(minLayoutRange, maxLayoutRange);
             
             CGSize layoutContainerSize = _layoutContainerSize;
             layoutContainerSize.width -= collectionSafeAreaInsets.left + collectionSafeAreaInsets.right;
@@ -72,56 +72,56 @@
 @end
 
 
-@implementation LWZCollectionLayoutSectionContentContainer
-- (instancetype)initWithCollectionContentContainer:(LWZCollectionLayoutCollectionContentContainer *)collectionContentContainer sectionEdgeSpacings:(UIEdgeInsets)edgeSpacings sectionContentInsets:(UIEdgeInsets)contentInsets {
+@implementation LWZSectionLayoutContainer
+- (instancetype)initWithCollectionLayoutContainer:(LWZCollectionLayoutContainer *)collectionLayoutContainer sectionEdgeSpacings:(UIEdgeInsets)edgeSpacings sectionContentInsets:(UIEdgeInsets)contentInsets {
     self = [super init];
     if ( self ) {
-        _collectionContentContainer = collectionContentContainer;
+        _collectionLayoutContainer = collectionLayoutContainer;
         _layoutInsets = edgeSpacings;
         _contentInsets = contentInsets;
-        UIFloatRange collectionContentLayoutRange = collectionContentContainer.layoutRange;
-        CGFloat layoutRangeMin = collectionContentLayoutRange.minimum;
-        CGFloat layoutRangeMax = collectionContentLayoutRange.maximum;
-        UICollectionViewScrollDirection direction = collectionContentContainer.layoutDirection;
+        UIFloatRange collectionLayoutRange = collectionLayoutContainer.layoutRange;
+        CGFloat minLayoutRange = collectionLayoutRange.minimum;
+        CGFloat maxLayoutRange = collectionLayoutRange.maximum;
+        UICollectionViewScrollDirection direction = collectionLayoutContainer.layoutDirection;
         switch ( direction ) {
             case UICollectionViewScrollDirectionVertical: {
-                layoutRangeMin += edgeSpacings.left;
-                layoutRangeMax -= edgeSpacings.right;
+                minLayoutRange += edgeSpacings.left;
+                maxLayoutRange -= edgeSpacings.right;
             }
                 break;
             case UICollectionViewScrollDirectionHorizontal: {
-                layoutRangeMin += edgeSpacings.top;
-                layoutRangeMax -= edgeSpacings.bottom;
+                minLayoutRange += edgeSpacings.top;
+                maxLayoutRange -= edgeSpacings.bottom;
             }
                 break;
         }
         // ranges
         // - section
-        _layoutRange = UIFloatRangeMake(layoutRangeMin, layoutRangeMax);
+        _layoutRange = UIFloatRangeMake(minLayoutRange, maxLayoutRange);
         // - headerFooter
-        _headerFooterLayoutRange = _layoutRange;
+        _layoutRangeOfHeaderFooter = _layoutRange;
         // - item
-        CGFloat itemLayoutRangeMin = layoutRangeMin;
-        CGFloat itemLayoutRangeMax = layoutRangeMax;
+        CGFloat minItemLayoutRange = minLayoutRange;
+        CGFloat maxItemLayoutRange = maxLayoutRange;
         switch ( direction ) {
             case UICollectionViewScrollDirectionVertical: {
-                itemLayoutRangeMin += contentInsets.left;
-                itemLayoutRangeMax -= contentInsets.right;
+                minItemLayoutRange += contentInsets.left;
+                maxItemLayoutRange -= contentInsets.right;
             }
                 break;
             case UICollectionViewScrollDirectionHorizontal: {
-                itemLayoutRangeMin += contentInsets.top;
-                itemLayoutRangeMax -= contentInsets.bottom;
+                minItemLayoutRange += contentInsets.top;
+                maxItemLayoutRange -= contentInsets.bottom;
             }
                 break;
         }
-        _itemLayoutRange = UIFloatRangeMake(itemLayoutRangeMin, itemLayoutRangeMax);
+        _layoutRangeOfItem = UIFloatRangeMake(minItemLayoutRange, maxItemLayoutRange);
         _layoutDirection = direction;
         
-        CGSize itemLayoutContainerSize = collectionContentContainer.layoutContainerSize;
-        itemLayoutContainerSize.width -= (edgeSpacings.left + edgeSpacings.right) + (contentInsets.left + contentInsets.right);
-        itemLayoutContainerSize.height -= (edgeSpacings.top + edgeSpacings.bottom) + (contentInsets.top + contentInsets.bottom);
-        _itemLayoutContainerSize = itemLayoutContainerSize;
+        CGSize layoutContainerSizeOfItem = collectionLayoutContainer.layoutContainerSize;
+        layoutContainerSizeOfItem.width -= (edgeSpacings.left + edgeSpacings.right) + (contentInsets.left + contentInsets.right);
+        layoutContainerSizeOfItem.height -= (edgeSpacings.top + edgeSpacings.bottom) + (contentInsets.top + contentInsets.bottom);
+        _layoutContainerSizeOfItem = layoutContainerSizeOfItem;
     }
     return self;
 }
@@ -130,21 +130,21 @@
 
 #pragma mark - Template
 
-@interface LWZCollectionLayoutTemplateDimension ()
-@property (nonatomic) LWZCollectionLayoutTemplateDimensionSemantic semantic;
+@interface LWZCollectionTemplateDimension ()
+@property (nonatomic) LWZCollectionTemplateDimensionSemantic semantic;
 @property (nonatomic) CGFloat dimension;
 @end
-@implementation LWZCollectionLayoutTemplateDimension
+@implementation LWZCollectionTemplateDimension
 - (instancetype)initWithFractionalWidthDimension:(CGFloat)dimension {
-    return [self initWithDimension:dimension semantic:LWZCollectionLayoutTemplateDimensionSemanticFractionalWidth];
+    return [self initWithDimension:dimension semantic:LWZCollectionTemplateDimensionSemanticFractionalWidth];
 }
 - (instancetype)initWithFractionalHeightDimension:(CGFloat)dimension {
-    return [self initWithDimension:dimension semantic:LWZCollectionLayoutTemplateDimensionSemanticFractionalHeight];
+    return [self initWithDimension:dimension semantic:LWZCollectionTemplateDimensionSemanticFractionalHeight];
 }
 - (instancetype)initWithAbsoluteDimension:(CGFloat)dimension {
-    return [self initWithDimension:dimension semantic:LWZCollectionLayoutTemplateDimensionSemanticAbsolute];
+    return [self initWithDimension:dimension semantic:LWZCollectionTemplateDimensionSemanticAbsolute];
 }
-- (instancetype)initWithDimension:(CGFloat)dimension semantic:(LWZCollectionLayoutTemplateDimensionSemantic)semantic {
+- (instancetype)initWithDimension:(CGFloat)dimension semantic:(LWZCollectionTemplateDimensionSemantic)semantic {
     self = [super init];
     if ( self ) {
         _semantic = semantic;
@@ -155,8 +155,8 @@
 @end
 
 
-@implementation LWZCollectionLayoutTemplateSize
-- (instancetype)initWithWidthDimension:(LWZCollectionLayoutTemplateDimension *)widthDimension heightDimension:(LWZCollectionLayoutTemplateDimension *)heightDimension {
+@implementation LWZCollectionTemplateSize
+- (instancetype)initWithWidthDimension:(LWZCollectionTemplateDimension *)widthDimension heightDimension:(LWZCollectionTemplateDimension *)heightDimension {
     self = [super init];
     if ( self ) {
         _width = widthDimension;
@@ -167,8 +167,8 @@
 @end
 
 
-@implementation LWZCollectionLayoutTemplateItem
-- (instancetype)initWithSize:(LWZCollectionLayoutTemplateSize *)size {
+@implementation LWZCollectionTemplateItem
+- (instancetype)initWithSize:(LWZCollectionTemplateSize *)size {
     self = [super init];
     if ( self ) {
         _size = size;
@@ -177,8 +177,8 @@
 }
 @end
 
-@implementation LWZCollectionLayoutTemplateContainer
-- (instancetype)initWithSize:(LWZCollectionLayoutTemplateSize *)size items:(NSArray<LWZCollectionLayoutTemplateItem *> *)items {
+@implementation LWZCollectionTemplateContainer
+- (instancetype)initWithSize:(LWZCollectionTemplateSize *)size items:(NSArray<LWZCollectionTemplateItem *> *)items {
     self = [super initWithSize:size];
     if ( self ) {
         _items = items.copy;
@@ -187,8 +187,8 @@
 }
 @end
 
-@implementation LWZCollectionLayoutTemplateGroup
-- (instancetype)initWithSize:(LWZCollectionLayoutTemplateSize *)size containers:(NSArray<LWZCollectionLayoutTemplateContainer *> *)containers {
+@implementation LWZCollectionTemplateGroup
+- (instancetype)initWithSize:(LWZCollectionTemplateSize *)size containers:(NSArray<LWZCollectionTemplateContainer *> *)containers {
     self = [super initWithSize:size];
     if ( self ) {
         _containers = containers;
@@ -197,8 +197,8 @@
 }
 @end
 
-@implementation LWZCollectionLayoutTemplate
-+ (NSArray<LWZCollectionLayoutTemplateGroup *> *)build:(void(^)(LWZCollectionTemplateBuilder *make))block {
+@implementation LWZCollectionTemplate
++ (NSArray<LWZCollectionTemplateGroup *> *)templateWithBuildBlock:(void(^)(LWZCollectionTemplateBuilder *make))block {
     LWZCollectionTemplateBuilder *builder = [LWZCollectionTemplateBuilder.alloc init];
     block(builder);
     return builder.groups;
@@ -206,42 +206,42 @@
 @end
 
 UIKIT_STATIC_INLINE CGSize
-LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSize containerSize) {
+LWZCollectionTemplateItemLayoutSize(LWZCollectionTemplateSize *size, CGSize containerSize) {
     CGSize layoutSize = CGSizeZero;
-    LWZCollectionLayoutTemplateDimension *widthDimension = size.width;
-    LWZCollectionLayoutTemplateDimension *heightDimension = size.height;
+    LWZCollectionTemplateDimension *widthDimension = size.width;
+    LWZCollectionTemplateDimension *heightDimension = size.height;
     switch ( widthDimension.semantic ) {
-        case LWZCollectionLayoutTemplateDimensionSemanticFractionalWidth:
+        case LWZCollectionTemplateDimensionSemanticFractionalWidth:
             layoutSize.width = widthDimension.dimension * containerSize.width;
             break;
-        case LWZCollectionLayoutTemplateDimensionSemanticFractionalHeight:
+        case LWZCollectionTemplateDimensionSemanticFractionalHeight:
             layoutSize.width = widthDimension.dimension *containerSize.height;
             break;
-        case LWZCollectionLayoutTemplateDimensionSemanticAbsolute:
+        case LWZCollectionTemplateDimensionSemanticAbsolute:
             layoutSize.width = widthDimension.dimension;
             break;
     }
     
     switch ( heightDimension.semantic ) {
-        case LWZCollectionLayoutTemplateDimensionSemanticFractionalWidth:
+        case LWZCollectionTemplateDimensionSemanticFractionalWidth:
             layoutSize.height = heightDimension.dimension * containerSize.width;
             break;
-        case LWZCollectionLayoutTemplateDimensionSemanticFractionalHeight:
+        case LWZCollectionTemplateDimensionSemanticFractionalHeight:
             layoutSize.height = heightDimension.dimension * containerSize.height;
             break;
-        case LWZCollectionLayoutTemplateDimensionSemanticAbsolute:
+        case LWZCollectionTemplateDimensionSemanticAbsolute:
             layoutSize.height = heightDimension.dimension;
             break;
     }
     return layoutSize;
 }
 
-@interface LWZCollectionTemplateLayoutSolverResult : NSObject
+@interface LWZCollectionTemplateSolverResult : NSObject
 - (instancetype)initWithFrame:(CGRect)frame; // frame in groups?
 @property (nonatomic, readonly) CGRect frame;
 @end
 
-@implementation LWZCollectionTemplateLayoutSolverResult
+@implementation LWZCollectionTemplateSolverResult
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super init];
     if ( self ) {
@@ -251,17 +251,17 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
 }
 @end
 
-@implementation LWZCollectionTemplateLayoutSolver {
+@implementation LWZCollectionTemplateSolver {
     NSMutableArray<NSValue *> *mAllItemLayoutFrames;
 }
-- (instancetype)initWithGroups:(NSArray<LWZCollectionLayoutTemplateGroup *> *)groups scrollDirection:(UICollectionViewScrollDirection)scrollDirection numberOfItems:(NSInteger)numberOfItems lineSpacing:(CGFloat)lineSpacing itemSpacing:(CGFloat)itemSpacing containerSize:(CGSize)containerSize {
+- (instancetype)initWithGroups:(NSArray<LWZCollectionTemplateGroup *> *)groups scrollDirection:(UICollectionViewScrollDirection)scrollDirection numberOfItems:(NSInteger)numberOfItems lineSpacing:(CGFloat)lineSpacing itemSpacing:(CGFloat)itemSpacing containerSize:(CGSize)containerSize {
     self = [super init];
     if ( self ) {
-        NSMutableArray<LWZCollectionTemplateLayoutSolverResult *> *results = NSMutableArray.array;
+        NSMutableArray<LWZCollectionTemplateSolverResult *> *results = NSMutableArray.array;
         CGPoint groupOrigin = CGPointZero;
-        for ( LWZCollectionLayoutTemplateGroup *group in groups ) {
+        for ( LWZCollectionTemplateGroup *group in groups ) {
             CGSize groupLayoutSize = LWZCollectionTemplateItemLayoutSize(group.size, containerSize);
-            NSArray<LWZCollectionLayoutTemplateContainer *> *containers = group.containers;
+            NSArray<LWZCollectionTemplateContainer *> *containers = group.containers;
             NSInteger containerCount = containers.count;
             CGSize containerContainerSize = groupLayoutSize;
             if ( containerCount > 1 ) {
@@ -278,9 +278,9 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
             
             CGPoint containerOrigin = groupOrigin;
             CGPoint itemOrigin = containerOrigin;
-            for ( LWZCollectionLayoutTemplateContainer *container in containers ) {
+            for ( LWZCollectionTemplateContainer *container in containers ) {
                 CGSize containerLayoutSize = LWZCollectionTemplateItemLayoutSize(container.size, containerContainerSize);
-                NSArray<LWZCollectionLayoutTemplateItem *> *items = container.items;
+                NSArray<LWZCollectionTemplateItem *> *items = container.items;
                 NSInteger itemCount = items.count;
                 CGSize itemContainerSize = containerLayoutSize;
                 if ( itemCount > 1 ) {
@@ -296,11 +296,11 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
                 }
  
                 CGRect itemFrame = CGRectZero;
-                for ( LWZCollectionLayoutTemplateItem *item in container.items ) {
+                for ( LWZCollectionTemplateItem *item in container.items ) {
                     itemFrame.origin = itemOrigin;
                     itemFrame.size = LWZCollectionTemplateItemLayoutSize(item.size, itemContainerSize);
                     
-                    [results addObject:[LWZCollectionTemplateLayoutSolverResult.alloc initWithFrame:itemFrame]];
+                    [results addObject:[LWZCollectionTemplateSolverResult.alloc initWithFrame:itemFrame]];
                     
                     switch ( scrollDirection ) {
                         case UICollectionViewScrollDirectionVertical:
@@ -353,7 +353,7 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
         for ( NSInteger i = 0 ; i < numberOfItems ; ++ i ) {
             NSInteger idx = i % resultCount;
             NSInteger mult = i / resultCount;
-            LWZCollectionTemplateLayoutSolverResult *result = results[idx];
+            LWZCollectionTemplateSolverResult *result = results[idx];
             itemLayoutFrame = result.frame;
             if ( mult != 0 ) {
                 switch ( scrollDirection ) {
@@ -378,20 +378,20 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
 @end
 
 @interface LWZCollectionTemplateDimensionBuilder () {
-    LWZCollectionLayoutTemplateDimension *mDimension;
+    LWZCollectionTemplateDimension *mDimension;
 }
-- (instancetype)initWithDimension:(LWZCollectionLayoutTemplateDimension *)dimension;
+- (instancetype)initWithDimension:(LWZCollectionTemplateDimension *)dimension;
 @end
 @implementation LWZCollectionTemplateDimensionBuilder
-- (instancetype)initWithDimension:(LWZCollectionLayoutTemplateDimension *)dimension {
+- (instancetype)initWithDimension:(LWZCollectionTemplateDimension *)dimension {
     self = [super init];
     if ( self ) {
         mDimension = dimension;
     }
     return self;
 }
-- (LWZCollectionTemplateDimensionBuilder * _Nonnull (^)(LWZCollectionLayoutTemplateDimensionSemantic))semantic {
-    return ^LWZCollectionTemplateDimensionBuilder *(LWZCollectionLayoutTemplateDimensionSemantic semantic){
+- (LWZCollectionTemplateDimensionBuilder * _Nonnull (^)(LWZCollectionTemplateDimensionSemantic))semantic {
+    return ^LWZCollectionTemplateDimensionBuilder *(LWZCollectionTemplateDimensionSemantic semantic){
         self->mDimension.semantic = semantic;
         return self;
     };
@@ -404,37 +404,37 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
 }
 - (void (^)(CGFloat))fractionalWidth {
     return ^(CGFloat dimension){
-        self->mDimension.semantic = LWZCollectionLayoutTemplateDimensionSemanticFractionalWidth;
+        self->mDimension.semantic = LWZCollectionTemplateDimensionSemanticFractionalWidth;
         self->mDimension.dimension = dimension;
     };
 }
 - (void (^)(CGFloat))fractionalHeight {
     return ^(CGFloat dimension){
-        self->mDimension.semantic = LWZCollectionLayoutTemplateDimensionSemanticFractionalHeight;
+        self->mDimension.semantic = LWZCollectionTemplateDimensionSemanticFractionalHeight;
         self->mDimension.dimension = dimension;
     };
 }
 - (void (^)(CGFloat))absolute {
     return ^(CGFloat dimension){
-        self->mDimension.semantic = LWZCollectionLayoutTemplateDimensionSemanticAbsolute;
+        self->mDimension.semantic = LWZCollectionTemplateDimensionSemanticAbsolute;
         self->mDimension.dimension = dimension;
     };
 }
 @end
 
 @interface LWZCollectionTemplateItemBuilder () {
-    LWZCollectionLayoutTemplateSize *mSize;
+    LWZCollectionTemplateSize *mSize;
     LWZCollectionTemplateDimensionBuilder *mWidth;
     LWZCollectionTemplateDimensionBuilder *mHeight;
 }
-@property (nonatomic, readonly) LWZCollectionLayoutTemplateSize *size;
+@property (nonatomic, readonly) LWZCollectionTemplateSize *size;
 @end
 @implementation LWZCollectionTemplateItemBuilder
 - (instancetype)init {
     self = [super init];
     if ( self ) {
-        mSize = [LWZCollectionLayoutTemplateSize.alloc initWithWidthDimension:[LWZCollectionLayoutTemplateDimension.alloc initWithFractionalWidthDimension:1.0]
-                                                              heightDimension:[LWZCollectionLayoutTemplateDimension.alloc initWithFractionalHeightDimension:1.0]];
+        mSize = [LWZCollectionTemplateSize.alloc initWithWidthDimension:[LWZCollectionTemplateDimension.alloc initWithFractionalWidthDimension:1.0]
+                                                              heightDimension:[LWZCollectionTemplateDimension.alloc initWithFractionalHeightDimension:1.0]];
         
         mWidth = [LWZCollectionTemplateDimensionBuilder.alloc initWithDimension:mSize.width];
         mHeight = [LWZCollectionTemplateDimensionBuilder.alloc initWithDimension:mSize.height];
@@ -447,15 +447,15 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
 - (LWZCollectionTemplateDimensionBuilder *)height {
     return mHeight;
 }
-- (LWZCollectionLayoutTemplateSize *)size {
+- (LWZCollectionTemplateSize *)size {
     return mSize;
 }
 @end
 
 @interface LWZCollectionTemplateContainerBuilder () {
-    NSMutableArray<LWZCollectionLayoutTemplateItem *> *mItems;
+    NSMutableArray<LWZCollectionTemplateItem *> *mItems;
 }
-@property (nonatomic, readonly) NSArray<LWZCollectionLayoutTemplateItem *> *items;
+@property (nonatomic, readonly) NSArray<LWZCollectionTemplateItem *> *items;
 @end
 @implementation LWZCollectionTemplateContainerBuilder
 - (instancetype)init {
@@ -469,18 +469,18 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
     return ^(void(^block)(LWZCollectionTemplateItemBuilder *item)){
         LWZCollectionTemplateItemBuilder *builder = [LWZCollectionTemplateItemBuilder.alloc init];
         block(builder);
-        [self->mItems addObject:[LWZCollectionLayoutTemplateItem.alloc initWithSize:builder.size]];
+        [self->mItems addObject:[LWZCollectionTemplateItem.alloc initWithSize:builder.size]];
     };
 }
-- (NSArray<LWZCollectionLayoutTemplateItem *> *)items {
+- (NSArray<LWZCollectionTemplateItem *> *)items {
     return mItems;
 }
 @end
 
 @interface LWZCollectionTemplateGroupBuilder () {
-    NSMutableArray<LWZCollectionLayoutTemplateContainer *> *mContainers;
+    NSMutableArray<LWZCollectionTemplateContainer *> *mContainers;
 }
-@property (nonatomic, readonly) NSArray<LWZCollectionLayoutTemplateContainer *> *containers;
+@property (nonatomic, readonly) NSArray<LWZCollectionTemplateContainer *> *containers;
 @end
 @implementation LWZCollectionTemplateGroupBuilder
 - (instancetype)init {
@@ -494,18 +494,18 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
     return ^(void(^block)(LWZCollectionTemplateContainerBuilder *container)) {
         LWZCollectionTemplateContainerBuilder *builder = [LWZCollectionTemplateContainerBuilder.alloc init];
         block(builder);
-        [self->mContainers addObject:[LWZCollectionLayoutTemplateContainer.alloc initWithSize:builder.size items:builder.items]];
+        [self->mContainers addObject:[LWZCollectionTemplateContainer.alloc initWithSize:builder.size items:builder.items]];
     };
 }
 
-- (NSArray<LWZCollectionLayoutTemplateContainer *> *)containers {
+- (NSArray<LWZCollectionTemplateContainer *> *)containers {
     return mContainers;
 }
 @end
 
 
 @interface LWZCollectionTemplateBuilder () {
-    NSMutableArray<LWZCollectionLayoutTemplateGroup *> *mGroups;
+    NSMutableArray<LWZCollectionTemplateGroup *> *mGroups;
 }
 @end
 @implementation LWZCollectionTemplateBuilder
@@ -520,10 +520,10 @@ LWZCollectionTemplateItemLayoutSize(LWZCollectionLayoutTemplateSize *size, CGSiz
     return ^(void(^block)(LWZCollectionTemplateGroupBuilder *group)){
         LWZCollectionTemplateGroupBuilder *builder = [LWZCollectionTemplateGroupBuilder.alloc init];
         block(builder);
-        [self->mGroups addObject:[LWZCollectionLayoutTemplateGroup.alloc initWithSize:builder.size containers:builder.containers]];
+        [self->mGroups addObject:[LWZCollectionTemplateGroup.alloc initWithSize:builder.size containers:builder.containers]];
     };
 }
-- (NSArray<LWZCollectionLayoutTemplateGroup *> *)groups {
+- (NSArray<LWZCollectionTemplateGroup *> *)groups {
     return mGroups;
 }
 @end

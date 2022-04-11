@@ -13,7 +13,7 @@
 #import "TLViewController1.h"
 #import "CLViewController.h"
 #import "RLViewController.h"
-#import "HLViewController.h"
+#import "MLViewController.h"
 
 @interface LWZViewController ()
 
@@ -53,8 +53,8 @@
     CLViewController *vc = [CLViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (IBAction)pushHybridLayout:(id)sender {
-    HLViewController *vc = [HLViewController.alloc init];
+- (IBAction)pushMultipleLayout:(id)sender {
+    MLViewController *vc = [MLViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

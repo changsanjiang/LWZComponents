@@ -2,7 +2,7 @@
 //  LWZCollectionSection.m
 //  LWZCollectionViewComponents_Example
 //
-//  Created by changsanjiang on 2020/11/16.
+//  Created by BlueDancer on 2020/11/16.
 //  Copyright © 2020 changsanjiang@gmail.com. All rights reserved.
 //
 
@@ -10,14 +10,14 @@
 
 @interface LWZCollectionSection ()
 @property (nonatomic, strong, readonly) NSMutableArray<LWZCollectionItem *> *items;
-@property (nonatomic) NSInteger numberOfArrangedItemsPerLine; // LWZCollectionWaterfallFlowLayout
-@property (nonatomic) LWZCollectionLayoutType layoutType; // LWZCollectionHybridLayout
-@property (nonatomic, getter=isOrthogonalScrolling) BOOL orthogonalScrolling; // LWZCollectionCompositionalLayout
-- (CGSize)layoutSizeThatFits:(CGSize)size forOrthogonalContentAtIndex:(NSInteger)index scrollDirection:(UICollectionViewScrollDirection)scrollDirection; // LWZCollectionCompositionalLayout
+@property (nonatomic) NSInteger numberOfArrangedItemsPerLine; // LWZCollectionViewWaterfallFlowLayout
+@property (nonatomic) LWZCollectionLayoutType layoutType; // LWZCollectionViewMultipleLayout
+@property (nonatomic, getter=isOrthogonalScrolling) BOOL orthogonalScrolling; // LWZCollectionViewCompositionalLayout
+- (CGSize)layoutSizeThatFits:(CGSize)size forOrthogonalContentAtIndex:(NSInteger)index scrollDirection:(UICollectionViewScrollDirection)scrollDirection; // LWZCollectionViewCompositionalLayout
 
-@property (nonatomic, copy, nullable) CGSize(^orthogonalContentLayoutSizeCalculator)(LWZCollectionSection *section, CGSize fittingSize, NSInteger index, UICollectionViewScrollDirection scrollDirection); // LWZCollectionCompositionalLayout
-@property (nonatomic) LWZCollectionLayoutContentOrthogonalScrollingBehavior orthogonalScrollingBehavior; // LWZCollectionCompositionalLayout
-@property (nonatomic, strong, nullable) NSArray<LWZCollectionLayoutTemplateGroup *> *layoutTemplateContainerGroups; // LWZCollectionTemplateLayout
+@property (nonatomic, copy, nullable) CGSize(^orthogonalContentLayoutSizeCalculator)(LWZCollectionSection *section, CGSize fittingSize, NSInteger index, UICollectionViewScrollDirection scrollDirection); // LWZCollectionViewCompositionalLayout
+@property (nonatomic) LWZCollectionLayoutContentOrthogonalScrollingBehavior orthogonalScrollingBehavior; // LWZCollectionViewCompositionalLayout
+@property (nonatomic, strong, nullable) NSArray<LWZCollectionTemplateGroup *> *layoutTemplateContainerGroups; // LWZCollectionViewTemplateLayout
 @end
 
 @implementation LWZCollectionSection

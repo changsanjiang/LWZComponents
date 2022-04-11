@@ -2,7 +2,7 @@
 //  LWZCollectionViewComponents.h
 //  LWZCollectionViewComponents
 //
-//  Created by changsanjiang on 2020/11/3.
+//  Created by BlueDancer on 2020/11/3.
 //  Copyright © 2020 changsanjiang@gmail.com. All rights reserved.
 //
 
@@ -18,6 +18,8 @@
 
 #import "LWZCollectionViewPresenter.h"
 #import "LWZCollectionViewRegister.h"
+#import "LWZCollectionViewSizes.h"
 
 #import "LWZCollectionViewLayout.h"
+#import "CGSize+LWZCollectionAdditions.h"
 #endif /* LWZCollectionViewComponents_h */
