@@ -351,12 +351,12 @@ LWZAllHashTableObjects(NSHashTable *table) {
         if ( sections.count != 0 ) {
             for ( LWZCollectionLayoutSection *section in sections ) {
                 if ( section.canPinToVisibleBoundsForHeader ) {
-                    LWZCollectionViewLayoutAttributes *header = section.headerViewLayoutAttributes.copy;
+                    LWZCollectionViewLayoutAttributes *header = section.headerViewLayoutAttributes;
                     NSArray<NSIndexPath *> *indexPaths = @[header.indexPath];
                     [context invalidateSupplementaryElementsOfKind:header.representedElementKind atIndexPaths:indexPaths];
                     
                     // decoration
-                    LWZCollectionViewLayoutAttributes *decoration = section.headerDecorationLayoutAttributes.copy;
+                    LWZCollectionViewLayoutAttributes *decoration = section.headerDecorationLayoutAttributes;
                     if ( decoration != nil ) {
                         [context invalidateDecorationElementsOfKind:decoration.representedElementKind atIndexPaths:indexPaths];
                     }
@@ -417,7 +417,7 @@ LWZAllHashTableObjects(NSHashTable *table) {
         NSInteger sIdx = indexPath.section;
         LWZCollectionLayoutSection *section = [_mLayoutCollection sectionAtIndex:sIdx];
         LWZCollectionViewLayoutAttributes *decoration = section.headerDecorationLayoutAttributes;
-        if ( decoration != nil && decoration.representedElementKind == elementKind && section.canPinToVisibleBoundsForHeader ) {
+        if ( decoration != nil && [decoration.representedElementKind isEqualToString:elementKind] && section.canPinToVisibleBoundsForHeader ) {
             LWZCollectionViewLayoutAttributes *header = section.headerViewLayoutAttributes;
             CGRect headerFrame = header.frame;
             LWZCollectionViewLayoutAttributes *headerPinnedAttributes = section.headerViewPinnedLayoutAttributes;
