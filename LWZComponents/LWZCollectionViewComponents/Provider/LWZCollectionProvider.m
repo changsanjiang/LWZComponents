@@ -98,12 +98,20 @@
     return _sections.count;
 }
 
+- (NSInteger)numberOfItemsInSectionAtIndex:(NSInteger)sectionIndex {
+    return [self sectionAtIndex:sectionIndex].numberOfItems;
+}
+
 - (nullable __kindof LWZCollectionSection *)firstSection {
     return _sections.firstObject;
 }
 
 - (nullable __kindof LWZCollectionSection *)lastSection {
     return _sections.lastObject;
+}
+
+- (nullable NSArray<__kindof LWZCollectionSection *> *)allSections {
+    return _sections.copy;
 }
 
 - (NSInteger)addSection:(LWZCollectionSection *)section {

@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
+@property (nonatomic, readonly) NSInteger sectionCount;
 - (void)enumerateSectionsUsingBlock:(void(NS_NOESCAPE ^)(LWZCollectionLayoutSection *section, BOOL *stop))block;
 - (nullable NSArray<LWZCollectionLayoutSection *> *)sectionsInRect:(CGRect)rect;
 - (nullable LWZCollectionLayoutSection *)sectionAtIndex:(NSInteger)index;

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)didFinishPreparingInContainer:(LWZCollectionLayoutContainer *)container;
 
-- (BOOL)shouldProcessLayoutForSectionAtIndex:(NSInteger)index;
+- (BOOL)isSectionHiddenAtIndex:(NSInteger)section;
 
 - (nullable LWZCollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewWithElementKind:(NSString *)kind indexPath:(NSIndexPath *)indexPath offset:(CGFloat)offset container:(LWZSectionLayoutContainer *)container;
 

@@ -7,13 +7,13 @@
 //
 
 #import "LWZViewController.h"
-#import "WLViewController.h"
-#import "LLViewController.h"
-#import "WFLViewController.h"
-#import "TLViewController1.h"
-#import "CLViewController.h"
-#import "RLViewController.h"
-#import "MLViewController.h"
+#import "WLWeightLayoutDemoViewController.h"
+#import "LLListLayoutViewController.h"
+#import "WFWaterfallFlowLayoutViewController.h"
+#import "TLTemplateLayoutViewController.h"
+#import "CLCompositionalLayoutViewController.h"
+#import "RLRestrictedLayoutViewController.h"
+#import "MLMultipleLayoutViewController.h"
 
 @interface LWZViewController ()
 
@@ -27,34 +27,34 @@
 }
 
 - (IBAction)pushWeightLayout:(id)sender {
-    WLViewController *vc = [WLViewController.alloc init];
+    WLWeightLayoutDemoViewController *vc = [WLWeightLayoutDemoViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)pushListLayout:(id)sender {
-    LLViewController *vc = [LLViewController.alloc init];
+    LLListLayoutViewController *vc = [LLListLayoutViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)pushRestrictedLayout:(id)sender {
-    RLViewController *vc = [RLViewController.alloc init];
+    RLRestrictedLayoutViewController *vc = [RLRestrictedLayoutViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)pushWaterfallFlowLayout:(id)sender {
-    WFLViewController *vc = [WFLViewController.alloc init];
+    WFWaterfallFlowLayoutViewController *vc = [WFWaterfallFlowLayoutViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)pushTemplateLayout:(id)sender {
-    TLViewController1 *vc = [TLViewController1.alloc init];
+    TLTemplateLayoutViewController *vc = [TLTemplateLayoutViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)pushCompositionalLayout:(id)sender {
-    CLViewController *vc = [CLViewController.alloc init];
+    CLCompositionalLayoutViewController *vc = [CLCompositionalLayoutViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)pushMultipleLayout:(id)sender {
-    MLViewController *vc = [MLViewController.alloc init];
+    MLMultipleLayoutViewController *vc = [MLMultipleLayoutViewController.alloc init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

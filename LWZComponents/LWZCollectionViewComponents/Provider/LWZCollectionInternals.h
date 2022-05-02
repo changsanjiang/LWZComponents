@@ -29,14 +29,4 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)willDisplaySupplementaryView:(__kindof UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath;
 - (void)didEndDisplayingSupplementaryView:(__kindof UICollectionReusableView *)view forElementOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath;
 @end
-
-@interface UICollectionViewCell (LWZCollectionInternalAdditions)
-@property (nonatomic, strong, nullable) __kindof LWZCollectionItem *lwz_bindingCollectionItem;
-@property (nonatomic, readonly) BOOL lwz_respondsToWillDisplay;
-@property (nonatomic, readonly) BOOL lwz_respondsToDidEndDisplaying;
-@end
-
-@interface UICollectionReusableView (LWZCollectionInternalAdditions)
-@property (nonatomic, strong, nullable) __kindof LWZCollectionSectionHeaderFooter *lwz_bindingHeaderFooter;
-@end
 NS_ASSUME_NONNULL_END

@@ -16,6 +16,7 @@ target 'LWZComponents_Example' do
   pod 'LWZComponents', :path => '../'
   pod 'YYModel'
   pod 'Masonry'
+  pod 'MJRefresh'
   pod 'SJUIKit/AttributesFactory'
 
   target 'LWZComponents_Tests' do

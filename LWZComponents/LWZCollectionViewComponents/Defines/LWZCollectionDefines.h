@@ -57,6 +57,10 @@ FOUNDATION_EXTERN NSInteger const LWZCollectionOrthogonalScrollingGroupViewZPosi
 FOUNDATION_EXTERN NSInteger const LWZFittingSizeMaxBoundary;
 FOUNDATION_EXTERN CGFloat   const LWZLayoutSizeMinimumValue;
 
+@interface UICollectionViewCell (LWZCollectionUpdates)
+- (void)willDisplayAtIndexPath:(NSIndexPath *)indexPath;
+- (void)didEndDisplayingAtIndexPath:(NSIndexPath *)indexPath;
+@end
 
 @protocol LWZCollectionLayout <NSObject>
 - (NSInteger)numberOfItemsInSection:(NSInteger)section;
@@ -73,9 +77,9 @@ FOUNDATION_EXTERN CGFloat   const LWZLayoutSizeMinimumValue;
 - (CGFloat)zIndexForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (CGFloat)zIndexForFooterInSection:(NSInteger)section;
 
-- (nullable NSString *)elementKindForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
-- (CGRect)relativeRectToFit:(CGRect)fitsRect forDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
-- (CGFloat)zIndexForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
-- (nullable id)userInfoForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+- (nullable NSString *)decorationViewKindForCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+- (CGRect)decorationRelativeRectToFit:(CGRect)fitsRect forCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+- (CGFloat)decorationZIndexForCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
+- (nullable id)decorationUserInfoForCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath;
 @end
 NS_ASSUME_NONNULL_END

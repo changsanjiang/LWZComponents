@@ -91,22 +91,49 @@
 }
 @end
   
+
+/// Section
+@interface LWZCollectionSectionSeparatorDecoration : LWZCollectionSeparatorDecoration
+
+@end
+
+/// Header
+@interface LWZCollectionHeaderSeparatorDecoration : LWZCollectionSeparatorDecoration
+
+@end
+
+/// Item
+@interface LWZCollectionItemSeparatorDecoration : LWZCollectionSeparatorDecoration
+
+@end
+
+/// Footer
+@interface LWZCollectionFooterSeparatorDecoration : LWZCollectionSeparatorDecoration
+
+@end
+
 @implementation LWZCollectionSeparatorDecoration
 @dynamic zPosition;
 
 - (instancetype)initWithColor:(UIColor *)color height:(CGFloat)height {
-    self = [self init];
+    self = [super init];
+    self.zPosition = LWZCollectionDecorationSeparatorZPosition;
     _color = color;
     _height = height;
     return self;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.zPosition = LWZCollectionDecorationSeparatorZPosition;
-    }
-    return self;
++ (instancetype)sectionSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height {
+    return [LWZCollectionSectionSeparatorDecoration.alloc initWithColor:color height:height];
+}
++ (instancetype)headerSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height {
+    return [LWZCollectionHeaderSeparatorDecoration.alloc initWithColor:color height:height];
+}
++ (instancetype)itemSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height {
+    return [LWZCollectionItemSeparatorDecoration.alloc initWithColor:color height:height];
+}
++ (instancetype)footerSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height {
+    return [LWZCollectionFooterSeparatorDecoration.alloc initWithColor:color height:height];
 }
 
 - (Class)viewClass {
@@ -191,22 +218,50 @@
 
 @end
 
+/// Section
+@interface LWZCollectionSectionBackgroundDecoration : LWZCollectionBackgroundDecoration
+
+@end
+
+/// Header
+@interface LWZCollectionHeaderBackgroundDecoration : LWZCollectionBackgroundDecoration
+
+@end
+
+/// Item
+@interface LWZCollectionItemBackgroundDecoration : LWZCollectionBackgroundDecoration
+
+@end
+
+/// Footer
+@interface LWZCollectionFooterBackgroundDecoration : LWZCollectionBackgroundDecoration
+
+@end
+
 @implementation LWZCollectionBackgroundDecoration
 @dynamic zPosition;
 
 
 - (instancetype)initWithBackgroundColor:(UIColor *)backgroundColor {
-    self = [self init];
-    _backgroundColor = backgroundColor;
+    self = [super init];
+    if ( self ) {
+        self.zPosition = LWZCollectionDecorationDefaultZPosition;
+        _backgroundColor = backgroundColor;
+    }
     return self;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.zPosition = LWZCollectionDecorationDefaultZPosition;
-    }
-    return self;
++ (instancetype)sectionBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor {
+    return [LWZCollectionBackgroundDecoration.alloc initWithBackgroundColor:backgroundColor];
+}
++ (instancetype)headerBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor {
+    return [LWZCollectionHeaderBackgroundDecoration.alloc initWithBackgroundColor:backgroundColor];
+}
++ (instancetype)itemBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor {
+    return [LWZCollectionItemBackgroundDecoration.alloc initWithBackgroundColor:backgroundColor];
+}
++ (instancetype)footerBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor {
+    return [LWZCollectionFooterBackgroundDecoration.alloc initWithBackgroundColor:backgroundColor];
 }
  
 - (Class)viewClass {

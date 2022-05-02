@@ -8,18 +8,9 @@
 
 #ifndef LWZCollectionViewComponents_h
 #define LWZCollectionViewComponents_h
-#import "LWZCollectionView.h"
-
-#import "LWZCollectionProvider.h"
-#import "LWZCollectionSection.h"
-#import "LWZCollectionSectionHeaderFooter.h"
-#import "LWZCollectionDecoration.h"
-#import "LWZCollectionItem.h"
-
-#import "LWZCollectionViewPresenter.h"
-#import "LWZCollectionViewRegister.h"
-#import "LWZCollectionViewSizes.h"
-
 #import "LWZCollectionViewLayout.h"
+#import "LWZCollectionViewPresenter.h"
+#import "LWZCollectionProvider.h"
+
 #import "CGSize+LWZCollectionAdditions.h"
 #endif /* LWZCollectionViewComponents_h */

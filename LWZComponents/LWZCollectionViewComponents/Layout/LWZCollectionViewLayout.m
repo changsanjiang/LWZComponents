@@ -15,11 +15,11 @@
 #import "UIFloatRange+LWZCollectionAdditions.h"
 #import "CGSize+LWZCollectionAdditions.h"
 
-typedef NS_OPTIONS(NSUInteger, LWZCollectionLayoutPrepareContext) {
-    LWZCollectionLayoutPrepareContextNone = 0,
-    LWZCollectionLayoutPrepareContextInvalidateEverything = 1 << 0,
-    LWZCollectionLayoutPrepareContextInvalidateDataSourceCounts = 1 << 1,
-    LWZCollectionLayoutPrepareContextBoundaryChanging = 1 << 2,
+typedef NS_OPTIONS(NSUInteger, LWZCollectionViewLayoutPrepareContext) {
+    LWZCollectionViewLayoutPrepareContextNone = 0,
+    LWZCollectionViewLayoutPrepareContextInvalidateEverything = 1 << 0,
+    LWZCollectionViewLayoutPrepareContextInvalidateDataSourceCounts = 1 << 1,
+    LWZCollectionViewLayoutPrepareContextBoundaryChanging = 1 << 2,
 };
 
 UIKIT_STATIC_INLINE NSArray *_Nullable
@@ -38,10 +38,12 @@ LWZAllHashTableObjects(NSHashTable *table) {
     NSHashTable<id<LWZCollectionViewLayoutObserver>> *_mObservers;
     CGSize _mContentSize;
     __weak id<LWZCollectionViewLayoutDelegate> _mDelegate;
-    LWZCollectionLayoutPrepareContext _mPrepareContext;
+    LWZCollectionViewLayoutPrepareContext _mPrepareContext;
     CGFloat _mBoundary;
     
     struct {
+        unsigned delegateSectionSpacing :1;
+        unsigned delegateSectionHidden :1;
         unsigned delegateEdgeSpacingsForSection :1;
         unsigned delegateContentInsetsForSection :1;
         unsigned delegateAdjustedPinnedInsets :1;
@@ -51,25 +53,25 @@ LWZAllHashTableObjects(NSHashTable *table) {
         unsigned delegateSizeForFooter :1;
         unsigned delegateLineSpacingForSection :1;
         unsigned delegateInteritemSpacingForSection :1;
-        unsigned delegateElementKindForSectionDecoration :1;
-        unsigned delegateElementKindForHeaderDecoration :1;
-        unsigned delegateElementKindForItemDecoration :1;
-        unsigned delegateElementKindForFooterDecoration :1;
-        unsigned delegateUserInfoForSectionDecoration :1;
-        unsigned delegateUserInfoForHeaderDecoration :1;
-        unsigned delegateUserInfoForItemDecoration :1;
-        unsigned delegateUserInfoForFooterDecoration :1;
-        unsigned delegateRelativeRectForSectionDecoration :1;
-        unsigned delegateRelativeRectForHeaderDecoration :1;
-        unsigned delegateRelativeRectForItemDecoration :1;
-        unsigned delegateRelativeRectForFooterDecoration :1;
         unsigned delegateZIndexForHeader :1;
         unsigned delegateZIndexForItem :1;
         unsigned delegateZIndexForFooter :1;
-        unsigned delegateZIndexForSectionDecoration :1;
-        unsigned delegateZIndexForHeaderDecoration :1;
-        unsigned delegateZIndexForItemDecoration :1;
-        unsigned delegateZIndexForFooterDecoration :1;
+        unsigned delegateDecorationViewKindForSection :1;
+        unsigned delegateDecorationViewKindForHeader :1;
+        unsigned delegateDecorationViewKindForItem :1;
+        unsigned delegateDecorationViewKindForFooter :1;
+        unsigned delegateDecorationUserInfoForSection :1;
+        unsigned delegateDecorationUserInfoForHeader :1;
+        unsigned delegateDecorationUserInfoForItem :1;
+        unsigned delegateDecorationUserInfoForFooter :1;
+        unsigned delegateDecorationRelativeRectForSection :1;
+        unsigned delegateDecorationRelativeRectForHeader :1;
+        unsigned delegateDecorationRelativeRectForItem :1;
+        unsigned delegateDecorationRelativeRectForFooter :1;
+        unsigned delegateDecorationZIndexForSection :1;
+        unsigned delegateDecorationZIndexForHeader :1;
+        unsigned delegateDecorationZIndexForItem :1;
+        unsigned delegateDecorationZIndexForFooter :1;
         unsigned delegateWillPrepareLayoutInContainer :1;
         unsigned delegateDidFinishPreparingInContainer :1;
 
@@ -109,6 +111,8 @@ LWZAllHashTableObjects(NSHashTable *table) {
 - (void)setDelegate:(nullable id<LWZCollectionViewLayoutDelegate>)delegate {
     if ( delegate != _mDelegate ) {
         _mDelegate = delegate;
+        _mLayoutFlags.delegateSectionHidden = [delegate respondsToSelector:@selector(layout:isSectionHiddenAtIndex:)];
+        _mLayoutFlags.delegateSectionSpacing = [delegate respondsToSelector:@selector(sectionSpacingForLayout:)];
         _mLayoutFlags.delegateEdgeSpacingsForSection = [delegate respondsToSelector:@selector(layout:edgeSpacingsForSectionAtIndex:)];
         _mLayoutFlags.delegateContentInsetsForSection = [delegate respondsToSelector:@selector(layout:contentInsetsForSectionAtIndex:)];
         _mLayoutFlags.delegateAdjustedPinnedInsets = [delegate respondsToSelector:@selector(layout:adjustedPinnedInsetsForSectionAtIndex:)];
@@ -118,25 +122,25 @@ LWZAllHashTableObjects(NSHashTable *table) {
         _mLayoutFlags.delegateSizeForFooter = [delegate respondsToSelector:@selector(layout:layoutSizeToFit:forFooterInSection:scrollDirection:)];
         _mLayoutFlags.delegateLineSpacingForSection = [delegate respondsToSelector:@selector(layout:minimumLineSpacingForSectionAtIndex:)];
         _mLayoutFlags.delegateInteritemSpacingForSection = [delegate respondsToSelector:@selector(layout:minimumInteritemSpacingForSectionAtIndex:)];
-        _mLayoutFlags.delegateElementKindForSectionDecoration = [delegate respondsToSelector:@selector(layout:elementKindForSectionDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateElementKindForHeaderDecoration = [delegate respondsToSelector:@selector(layout:elementKindForHeaderDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateElementKindForItemDecoration = [delegate respondsToSelector:@selector(layout:elementKindForItemDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateElementKindForFooterDecoration = [delegate respondsToSelector:@selector(layout:elementKindForFooterDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateUserInfoForSectionDecoration = [delegate respondsToSelector:@selector(layout:userInfoForSectionDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateUserInfoForHeaderDecoration = [delegate respondsToSelector:@selector(layout:userInfoForHeaderDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateUserInfoForItemDecoration = [delegate respondsToSelector:@selector(layout:userInfoForItemDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateUserInfoForFooterDecoration = [delegate respondsToSelector:@selector(layout:userInfoForFooterDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateRelativeRectForSectionDecoration = [delegate respondsToSelector:@selector(layout:relativeRectToFit:forSectionDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateRelativeRectForHeaderDecoration = [delegate respondsToSelector:@selector(layout:relativeRectToFit:forHeaderDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateRelativeRectForItemDecoration = [delegate respondsToSelector:@selector(layout:relativeRectToFit:forItemDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateRelativeRectForFooterDecoration = [delegate respondsToSelector:@selector(layout:relativeRectToFit:forFooterDecorationAtIndexPath:)];
         _mLayoutFlags.delegateZIndexForHeader = [delegate respondsToSelector:@selector(layout:zIndexForHeaderInSection:)];
         _mLayoutFlags.delegateZIndexForItem = [delegate respondsToSelector:@selector(layout:zIndexForItemAtIndexPath:)];
         _mLayoutFlags.delegateZIndexForFooter = [delegate respondsToSelector:@selector(layout:zIndexForFooterInSection:)];
-        _mLayoutFlags.delegateZIndexForSectionDecoration = [delegate respondsToSelector:@selector(layout:zIndexForSectionDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateZIndexForHeaderDecoration = [delegate respondsToSelector:@selector(layout:zIndexForHeaderDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateZIndexForItemDecoration = [delegate respondsToSelector:@selector(layout:zIndexForItemDecorationAtIndexPath:)];
-        _mLayoutFlags.delegateZIndexForFooterDecoration = [delegate respondsToSelector:@selector(layout:zIndexForFooterDecorationAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationViewKindForSection = [delegate respondsToSelector:@selector(layout:decorationViewKindForSectionAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationViewKindForHeader = [delegate respondsToSelector:@selector(layout:decorationViewKindForHeaderAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationViewKindForItem = [delegate respondsToSelector:@selector(layout:decorationViewKindForItemAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationViewKindForFooter = [delegate respondsToSelector:@selector(layout:decorationViewKindForFooterAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationUserInfoForSection = [delegate respondsToSelector:@selector(layout:decorationUserInfoForSectionAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationUserInfoForHeader = [delegate respondsToSelector:@selector(layout:decorationUserInfoForHeaderAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationUserInfoForItem = [delegate respondsToSelector:@selector(layout:decorationUserInfoForItemAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationUserInfoForFooter = [delegate respondsToSelector:@selector(layout:decorationUserInfoForFooterAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationRelativeRectForSection = [delegate respondsToSelector:@selector(layout:decorationRelativeRectToFit:forSectionAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationRelativeRectForHeader = [delegate respondsToSelector:@selector(layout:decorationRelativeRectToFit:forHeaderAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationRelativeRectForItem = [delegate respondsToSelector:@selector(layout:decorationRelativeRectToFit:forItemAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationRelativeRectForFooter = [delegate respondsToSelector:@selector(layout:decorationRelativeRectToFit:forFooterAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationZIndexForSection = [delegate respondsToSelector:@selector(layout:decorationZIndexForSectionAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationZIndexForHeader = [delegate respondsToSelector:@selector(layout:decorationZIndexForHeaderAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationZIndexForItem = [delegate respondsToSelector:@selector(layout:decorationZIndexForItemAtIndexPath:)];
+        _mLayoutFlags.delegateDecorationZIndexForFooter = [delegate respondsToSelector:@selector(layout:decorationZIndexForFooterAtIndexPath:)];
         _mLayoutFlags.delegateWillPrepareLayoutInContainer = [delegate respondsToSelector:@selector(layout:willPrepareLayoutInContainer:)];
         _mLayoutFlags.delegateDidFinishPreparingInContainer = [delegate respondsToSelector:@selector(layout:didFinishPreparingInContainer:)];
     }
@@ -225,13 +229,13 @@ LWZAllHashTableObjects(NSHashTable *table) {
     printf("%s\n\n", self.collectionView.description.UTF8String);
 #endif
 
-    LWZCollectionLayoutPrepareContext prepareContext = _mPrepareContext;
+    LWZCollectionViewLayoutPrepareContext prepareContext = _mPrepareContext;
     if ( context.invalidateEverything ) {
-        prepareContext |= LWZCollectionLayoutPrepareContextInvalidateEverything;
+        prepareContext |= LWZCollectionViewLayoutPrepareContextInvalidateEverything;
     }
     
     if ( context.invalidateDataSourceCounts ) {
-        prepareContext |= LWZCollectionLayoutPrepareContextInvalidateDataSourceCounts;
+        prepareContext |= LWZCollectionViewLayoutPrepareContextInvalidateDataSourceCounts;
     }
     
     UICollectionView *collectionView = self.collectionView;
@@ -262,13 +266,13 @@ LWZAllHashTableObjects(NSHashTable *table) {
     
     CGFloat oldBoundary = _mBoundary;
     if ( boundary != oldBoundary ) {
-        prepareContext |= LWZCollectionLayoutPrepareContextBoundaryChanging;
+        prepareContext |= LWZCollectionViewLayoutPrepareContextBoundaryChanging;
         _mBoundary = boundary;
     }
     
     _mPrepareContext = prepareContext;
 
-    if ( oldBoundary != 0 && prepareContext & LWZCollectionLayoutPrepareContextBoundaryChanging ) {
+    if ( oldBoundary != 0 && prepareContext & LWZCollectionViewLayoutPrepareContextBoundaryChanging ) {
         CGPoint oldContentOffset = collectionView.contentOffset;
         CGPoint contentOffsetAdjustment = context.contentOffsetAdjustment;
         // 如果外部未做调整, 内部再处理一下
@@ -368,7 +372,7 @@ LWZAllHashTableObjects(NSHashTable *table) {
     printf("%d : %s\n", __LINE__, sel_getName(_cmd));
 #endif
 
-    if ( _mPrepareContext != LWZCollectionLayoutPrepareContextNone ) {
+    if ( _mPrepareContext != LWZCollectionViewLayoutPrepareContextNone ) {
         UICollectionView *collectionView = self.collectionView;
         CGSize collectionSize = collectionView.frame.size;
         if ( @available(iOS 11.0, *) ) {
@@ -438,12 +442,12 @@ LWZAllHashTableObjects(NSHashTable *table) {
 - (void)_prepareLayoutForCollectionSize:(CGSize)collectionSize contentInsets:(UIEdgeInsets)contentInsets safeAreaInsets:(UIEdgeInsets)safeAreaInsets {
 #ifdef LWZ_DEBUG
     printf("%s\n", [NSString stringWithFormat:@"%d - %s - %@ - %@ - %@", (int)__LINE__, __func__, NSStringFromCGSize(collectionSize), NSStringFromUIEdgeInsets(contentInsets), NSStringFromUIEdgeInsets(safeAreaInsets)].UTF8String);
-    printf("%s\n\n", [NSString stringWithFormat:@"prepareContext { invalidateEverything: %d, invalidateDataSourceCounts: %d, boundaryChanging: %d }", (BOOL)(_mPrepareContext & LWZCollectionLayoutPrepareContextInvalidateEverything), (BOOL)(_mPrepareContext & LWZCollectionLayoutPrepareContextInvalidateDataSourceCounts), (BOOL)(_mPrepareContext & LWZCollectionLayoutPrepareContextBoundaryChanging)].UTF8String);
+    printf("%s\n\n", [NSString stringWithFormat:@"prepareContext { invalidateEverything: %d, invalidateDataSourceCounts: %d, boundaryChanging: %d }", (BOOL)(_mPrepareContext & LWZCollectionViewLayoutPrepareContextInvalidateEverything), (BOOL)(_mPrepareContext & LWZCollectionViewLayoutPrepareContextInvalidateDataSourceCounts), (BOOL)(_mPrepareContext & LWZCollectionViewLayoutPrepareContextBoundaryChanging)].UTF8String);
 #endif
     
     [_mLayoutCollection removeAllSections];
     _mContentSize = CGSizeZero;
-    _mPrepareContext = LWZCollectionLayoutPrepareContextNone;
+    _mPrepareContext = LWZCollectionViewLayoutPrepareContextNone;
     
     if ( _mDelegate == nil ) {
 #if DEBUG
@@ -477,11 +481,19 @@ LWZAllHashTableObjects(NSHashTable *table) {
             break;
     }
     
+    CGFloat sectionSpacing = [self sectionSpacing];
+    
     CGRect layoutSectionFrame = CGRectZero;
     for ( NSInteger section = 0 ; section < numberOfSections;  ++ section ) {
-        if ( ![self shouldProcessLayoutForSectionAtIndex:section] )
+        if ( [self isSectionHiddenAtIndex:section] )
             continue;
         
+        // sectionSpacing
+        if ( sectionSpacing != 0 && _mLayoutCollection.sectionCount != 0 ) {
+            offset += sectionSpacing;
+        }
+        
+        // edgeSpacings
         UIEdgeInsets sectionEdgeSpacings = [self edgeSpacingsForSectionAtIndex:section];
         UIEdgeInsets sectionContentInsets = [self contentInsetsForSectionAtIndex:section];
         
@@ -522,6 +534,7 @@ LWZAllHashTableObjects(NSHashTable *table) {
         }
         
         // cells
+        // contentInsets
         switch ( _mScrollDirection ) {
             case UICollectionViewScrollDirectionVertical:
                 offset += sectionContentInsets.top;
@@ -657,6 +670,8 @@ LWZAllHashTableObjects(NSHashTable *table) {
     [self didFinishPreparingInContainer:collectionLayoutContainer];
 }
 
+#pragma mark - subclass
+
 - (void)willPrepareLayoutInContainer:(LWZCollectionLayoutContainer *)container {
     if ( _mLayoutFlags.delegateWillPrepareLayoutInContainer ) {
         [_mDelegate layout:self willPrepareLayoutInContainer:container];
@@ -681,11 +696,14 @@ LWZAllHashTableObjects(NSHashTable *table) {
     }
 }
 
-#pragma mark - solver methods
-
-- (BOOL)shouldProcessLayoutForSectionAtIndex:(NSInteger)index {
-    return YES;
+- (BOOL)isSectionHiddenAtIndex:(NSInteger)section {
+    if ( _mLayoutFlags.delegateSectionHidden ) {
+        return [_mDelegate layout:self isSectionHiddenAtIndex:section];
+    }
+    return NO;
 }
+
+// solver methods
 
 - (nullable LWZCollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewWithElementKind:(NSString *)kind indexPath:(NSIndexPath *)indexPath offset:(CGFloat)offset container:(LWZSectionLayoutContainer *)container {
     return [_mLayoutSolver layoutAttributesForSupplementaryItemWithKind:kind indexPath:indexPath offset:offset container:container];
@@ -724,6 +742,13 @@ LWZAllHashTableObjects(NSHashTable *table) {
 }
 
 #pragma mark - LWZCollectionLayout
+
+- (CGFloat)sectionSpacing {
+    if ( _mLayoutFlags.delegateSectionSpacing ) {
+        return [_mDelegate sectionSpacingForLayout:self];;
+    }
+    return _sectionSpacing;
+}
 
 - (NSInteger)numberOfItemsInSection:(NSInteger)section {
     return [self.collectionView numberOfItemsInSection:section];
@@ -797,101 +822,101 @@ LWZAllHashTableObjects(NSHashTable *table) {
     return 0.0;
 }
 
-- (nullable NSString *)elementKindForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
+- (nullable NSString *)decorationViewKindForCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
     switch ( category ) {
         case LWZCollectionDecorationCategorySection:
-            if ( _mLayoutFlags.delegateElementKindForSectionDecoration ) {
-                return [_mDelegate layout:self elementKindForSectionDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationViewKindForSection ) {
+                return [_mDelegate layout:self decorationViewKindForSectionAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryHeader:
-            if ( _mLayoutFlags.delegateElementKindForHeaderDecoration ) {
-                return [_mDelegate layout:self elementKindForHeaderDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationViewKindForHeader ) {
+                return [_mDelegate layout:self decorationViewKindForHeaderAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryItem:
-            if ( _mLayoutFlags.delegateElementKindForItemDecoration ) {
-                return [_mDelegate layout:self elementKindForItemDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationViewKindForItem ) {
+                return [_mDelegate layout:self decorationViewKindForItemAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryFooter:
-            if ( _mLayoutFlags.delegateElementKindForFooterDecoration ) {
-                return [_mDelegate layout:self elementKindForFooterDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationViewKindForFooter ) {
+                return [_mDelegate layout:self decorationViewKindForFooterAtIndexPath:indexPath];
             }
             break;
     }
     return nil;
 }
-- (CGRect)relativeRectToFit:(CGRect)fitsRect forDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
+- (CGRect)decorationRelativeRectToFit:(CGRect)fitsRect forCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
     switch ( category ) {
         case LWZCollectionDecorationCategorySection:
-            if ( _mLayoutFlags.delegateRelativeRectForSectionDecoration ) {
-                return [_mDelegate layout:self relativeRectToFit:fitsRect forSectionDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationRelativeRectForSection ) {
+                return [_mDelegate layout:self decorationRelativeRectToFit:fitsRect forSectionAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryHeader:
-            if ( _mLayoutFlags.delegateRelativeRectForFooterDecoration ) {
-                return [_mDelegate layout:self relativeRectToFit:fitsRect forHeaderDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationRelativeRectForHeader ) {
+                return [_mDelegate layout:self decorationRelativeRectToFit:fitsRect forHeaderAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryItem:
-            if ( _mLayoutFlags.delegateRelativeRectForItemDecoration ) {
-                return [_mDelegate layout:self relativeRectToFit:fitsRect forItemDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationRelativeRectForItem ) {
+                return [_mDelegate layout:self decorationRelativeRectToFit:fitsRect forItemAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryFooter:
-            if ( _mLayoutFlags.delegateRelativeRectForFooterDecoration ) {
-                return [_mDelegate layout:self relativeRectToFit:fitsRect forFooterDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationRelativeRectForFooter ) {
+                return [_mDelegate layout:self decorationRelativeRectToFit:fitsRect forFooterAtIndexPath:indexPath];
             }
             break;
     }
     return CGRectZero;
 }
-- (CGFloat)zIndexForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)decorationZIndexForCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
     switch ( category ) {
         case LWZCollectionDecorationCategorySection:
-            if ( _mLayoutFlags.delegateZIndexForSectionDecoration ) {
-                return [_mDelegate layout:self zIndexForSectionDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationZIndexForSection ) {
+                return [_mDelegate layout:self decorationZIndexForSectionAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryHeader:
-            if ( _mLayoutFlags.delegateZIndexForHeaderDecoration ) {
-                return [_mDelegate layout:self zIndexForHeaderDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationZIndexForHeader ) {
+                return [_mDelegate layout:self decorationZIndexForHeaderAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryItem:
-            if ( _mLayoutFlags.delegateZIndexForItemDecoration ) {
-                return [_mDelegate layout:self zIndexForItemDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationZIndexForItem ) {
+                return [_mDelegate layout:self decorationZIndexForItemAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryFooter:
-            if ( _mLayoutFlags.delegateZIndexForFooterDecoration ) {
-                return [_mDelegate layout:self zIndexForFooterDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationZIndexForFooter ) {
+                return [_mDelegate layout:self decorationZIndexForFooterAtIndexPath:indexPath];
             }
             break;
     }
     return 0.0;
 }
-- (nullable id)userInfoForDecorationOfCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
+- (nullable id)decorationUserInfoForCategory:(LWZCollectionDecorationCategory)category atIndexPath:(NSIndexPath *)indexPath {
     switch ( category ) {
         case LWZCollectionDecorationCategorySection:
-            if ( _mLayoutFlags.delegateUserInfoForSectionDecoration ) {
-                return [_mDelegate layout:self userInfoForSectionDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationUserInfoForSection ) {
+                return [_mDelegate layout:self decorationUserInfoForSectionAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryHeader:
-            if ( _mLayoutFlags.delegateUserInfoForHeaderDecoration ) {
-                return [_mDelegate layout:self userInfoForHeaderDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationUserInfoForHeader ) {
+                return [_mDelegate layout:self decorationUserInfoForHeaderAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryItem:
-            if ( _mLayoutFlags.delegateUserInfoForItemDecoration ) {
-                return [_mDelegate layout:self userInfoForItemDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationUserInfoForItem ) {
+                return [_mDelegate layout:self decorationUserInfoForItemAtIndexPath:indexPath];
             }
             break;
         case LWZCollectionDecorationCategoryFooter:
-            if ( _mLayoutFlags.delegateUserInfoForFooterDecoration ) {
-                return [_mDelegate layout:self userInfoForFooterDecorationAtIndexPath:indexPath];
+            if ( _mLayoutFlags.delegateDecorationUserInfoForFooter ) {
+                return [_mDelegate layout:self decorationUserInfoForFooterAtIndexPath:indexPath];
             }
             break;
     }

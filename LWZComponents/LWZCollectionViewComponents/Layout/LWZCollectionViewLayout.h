@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, getter=isIgnoredSafeAreaInsets) BOOL ignoredSafeAreaInsets NS_AVAILABLE_IOS(11.0); // default value is YES.
 - (void)prepareLayoutForCollectionSize:(CGSize)size contentInsets:(UIEdgeInsets)contentInsets safeAreaInsets:(UIEdgeInsets)safeAreaInsets NS_AVAILABLE_IOS(11.0);
 
+@property (nonatomic) CGFloat sectionSpacing;
+
 @property (nonatomic) BOOL sectionHeadersPinToVisibleBounds;
 //@property (nonatomic) BOOL sectionFootersPinToVisibleBounds;
 
@@ -68,6 +70,45 @@ NS_ASSUME_NONNULL_BEGIN
  
 @protocol LWZCollectionViewLayoutDelegate <LWZCollectionViewLayoutObserver>
 @optional
+/**
+ \code
+ 
+ +--[V]----------------------------------------+
+ |                                             |
+ |  +-------------+                            |
+ |  |             |                            |
+ |  |   section   |                            |
+ |  +-------------+        +----------------+  |
+ |                  <----- | sectionSpacing |  |
+ |  +-------------+        +----------------+  |
+ |  |             |                            |
+ |  |   section   |                            |
+ |  +-------------+                            |
+ |                                             |
+ +---------------------------------------------+
+ 
+ +--[H]-----------------------------------------+
+ |                                              |
+ |          +----------------+                  |
+ |          | sectionSpacing |                  |
+ |          +----------------+                  |
+ |                  |                           |
+ |                  |                           |
+ |                  v                           |
+ |  +-------------+   +-------------+           |
+ |  |             |   |             |           |
+ |  |   section   |   |   section   |           |
+ |  +-------------+   +-------------+           |
+ |                                              |
+ +----------------------------------------------+
+ \endcode
+ */
+- (CGFloat)sectionSpacingForLayout:(__kindof LWZCollectionViewLayout *)layout;
+
+/**
+ 是否隐藏某个 section, 隐藏后将不会计算 section 中的布局.
+ */
+- (BOOL)layout:(__kindof LWZCollectionViewLayout *)layout isSectionHiddenAtIndex:(NSInteger)section;
 
 /**
  \code
@@ -182,30 +223,30 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)layout:(__kindof LWZCollectionViewLayout *)layout minimumLineSpacingForSectionAtIndex:(NSInteger)section;
 - (CGFloat)layout:(__kindof LWZCollectionViewLayout *)layout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section;
 
-
-- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout elementKindForSectionDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout elementKindForHeaderDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout elementKindForItemDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout elementKindForFooterDecorationAtIndexPath:(NSIndexPath *)indexPath;
-
-- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout userInfoForSectionDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout userInfoForHeaderDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout userInfoForItemDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout userInfoForFooterDecorationAtIndexPath:(NSIndexPath *)indexPath;
-
-- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout relativeRectToFit:(CGRect)rect forSectionDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout relativeRectToFit:(CGRect)rect forHeaderDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout relativeRectToFit:(CGRect)rect forItemDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout relativeRectToFit:(CGRect)rect forFooterDecorationAtIndexPath:(NSIndexPath *)indexPath;
-
 - (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout zIndexForHeaderInSection:(NSInteger)section;
 - (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout zIndexForItemAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout zIndexForFooterInSection:(NSInteger)section;
 
-- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout zIndexForSectionDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout zIndexForHeaderDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout zIndexForItemDecorationAtIndexPath:(NSIndexPath *)indexPath;
-- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout zIndexForFooterDecorationAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout decorationViewKindForSectionAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout decorationViewKindForHeaderAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout decorationViewKindForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable NSString *)layout:(__kindof LWZCollectionViewLayout *)layout decorationViewKindForFooterAtIndexPath:(NSIndexPath *)indexPath;
+
+- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout decorationUserInfoForSectionAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout decorationUserInfoForHeaderAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout decorationUserInfoForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable id)layout:(__kindof LWZCollectionViewLayout *)layout decorationUserInfoForFooterAtIndexPath:(NSIndexPath *)indexPath;
+
+- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout decorationRelativeRectToFit:(CGRect)rect forSectionAtIndexPath:(NSIndexPath *)indexPath;
+- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout decorationRelativeRectToFit:(CGRect)rect forHeaderAtIndexPath:(NSIndexPath *)indexPath;
+- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout decorationRelativeRectToFit:(CGRect)rect forItemAtIndexPath:(NSIndexPath *)indexPath;
+- (CGRect)layout:(__kindof LWZCollectionViewLayout *)layout decorationRelativeRectToFit:(CGRect)rect forFooterAtIndexPath:(NSIndexPath *)indexPath;
+
+
+- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout decorationZIndexForSectionAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout decorationZIndexForHeaderAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout decorationZIndexForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)layout:(__kindof LWZCollectionViewLayout *)layout decorationZIndexForFooterAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 // [V]垂直布局

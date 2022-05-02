@@ -35,7 +35,14 @@ typedef NS_ENUM(NSUInteger, LWZCollectionSeparatorLayoutPosition) {
 /// - footer: LWZCollectionFooterSeparatorDecoration
 ///
 @interface LWZCollectionSeparatorDecoration : LWZCollectionDecoration
-- (instancetype)initWithColor:(UIColor *)color height:(CGFloat)height;
++ (instancetype)sectionSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height;
++ (instancetype)headerSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height;
++ (instancetype)itemSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height;
++ (instancetype)footerSeparatorDecorationWithColor:(UIColor *)color height:(CGFloat)height;
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
 @property (nonatomic) NSInteger zPosition; // default is 10;
 
 @property (nonatomic) LWZCollectionSeparatorLayoutPosition position; // .bottom
@@ -44,55 +51,22 @@ typedef NS_ENUM(NSUInteger, LWZCollectionSeparatorLayoutPosition) {
 @property (nonatomic) CGFloat height;
 @end
 
-/// Section
-@interface LWZCollectionSectionSeparatorDecoration : LWZCollectionSeparatorDecoration
-
-@end
-
-/// Header
-@interface LWZCollectionHeaderSeparatorDecoration : LWZCollectionSeparatorDecoration
-
-@end
-
-/// Item
-@interface LWZCollectionItemSeparatorDecoration : LWZCollectionSeparatorDecoration
-
-@end
-
-/// Footer
-@interface LWZCollectionFooterSeparatorDecoration : LWZCollectionSeparatorDecoration
-
-@end
-
 #pragma mark - background
 
 @interface LWZCollectionBackgroundDecoration : LWZCollectionDecoration
-- (instancetype)initWithBackgroundColor:(UIColor *)backgroundColor;
++ (instancetype)sectionBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor;
++ (instancetype)headerBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor;
++ (instancetype)itemBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor;
++ (instancetype)footerBackgroundDecorationWithBackgroundColor:(UIColor *)backgroundColor;
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
 @property (nonatomic, strong, nullable) UIColor *backgroundColor;
 @property (nonatomic) NSInteger zPosition; // default is -2;
 @property (nonatomic) UIEdgeInsets contentInsets;
 @property (nonatomic) CGFloat cornerRadius;
 @property (nonatomic, strong, nullable) UIColor *borderColor;
 @property (nonatomic) CGFloat borderWidth;
-@end
-
-/// Section
-@interface LWZCollectionSectionBackgroundDecoration : LWZCollectionBackgroundDecoration
-
-@end
-
-/// Header
-@interface LWZCollectionHeaderBackgroundDecoration : LWZCollectionBackgroundDecoration
-
-@end
-
-/// Item
-@interface LWZCollectionItemBackgroundDecoration : LWZCollectionBackgroundDecoration
-
-@end
-
-/// Footer
-@interface LWZCollectionFooterBackgroundDecoration : LWZCollectionBackgroundDecoration
-
 @end
 NS_ASSUME_NONNULL_END

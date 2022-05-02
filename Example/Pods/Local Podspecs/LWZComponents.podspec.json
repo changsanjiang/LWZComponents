@@ -1,6 +1,6 @@
 {
   "name": "LWZComponents",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "summary": "一些组件库.",
   "description": "https://github.com/changsanjiang/LWZComponents/blob/master/README.md",
   "homepage": "https://github.com/changsanjiang/LWZComponents",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/changsanjiang/LWZComponents.git",
-    "tag": "1.0.0"
+    "tag": "1.0.2"
   },
   "platforms": {
     "ios": "9.0"

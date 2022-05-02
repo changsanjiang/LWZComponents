@@ -33,7 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)bindCell:(__kindof UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)unbindCell:(__kindof UICollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 
-@property (nonatomic, copy, nullable) void(^tapHandler)(__kindof LWZCollectionItem *item, NSIndexPath *indexPath);
+@property (nonatomic, copy, nullable) void(^selectionHandler)(__kindof LWZCollectionItem *item, NSIndexPath *indexPath);
+
+@property (nonatomic, copy, nullable) void(^deselectionHandler)(__kindof LWZCollectionItem *item, NSIndexPath *indexPath);
 @end
 
 @interface LWZCollectionItem (LWZCollectionViewWeightLayoutAdditions)

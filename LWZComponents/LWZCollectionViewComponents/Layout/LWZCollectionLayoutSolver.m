@@ -68,16 +68,16 @@
 // decorations
 
 - (nullable LWZCollectionViewLayoutAttributes *)layoutAttributesForDecorationItemWithCategory:(LWZCollectionDecorationCategory)category inRect:(CGRect)rect indexPath:(NSIndexPath *)indexPath {
-    NSString *kind = [_layout elementKindForDecorationOfCategory:category atIndexPath:indexPath];
+    NSString *kind = [_layout decorationViewKindForCategory:category atIndexPath:indexPath];
     if ( kind.length != 0 ) {
         CGRect fitsRect = (CGRect){0, 0, rect.size};
-        CGRect layoutFrame = [_layout relativeRectToFit:fitsRect forDecorationOfCategory:category atIndexPath:indexPath];
+        CGRect layoutFrame = [_layout decorationRelativeRectToFit:fitsRect forCategory:category atIndexPath:indexPath];
         layoutFrame.origin.x += rect.origin.x;
         layoutFrame.origin.y += rect.origin.y;
         LWZCollectionViewLayoutAttributes *attributes = [LWZCollectionViewLayoutAttributes layoutAttributesForDecorationViewOfKind:kind withIndexPath:indexPath];
-        attributes.zIndex = [_layout zIndexForDecorationOfCategory:category atIndexPath:indexPath];
+        attributes.zIndex = [_layout decorationZIndexForCategory:category atIndexPath:indexPath];
         attributes.frame = layoutFrame;
-        attributes.decorationUserInfo = [_layout userInfoForDecorationOfCategory:category atIndexPath:indexPath];
+        attributes.decorationUserInfo = [_layout decorationUserInfoForCategory:category atIndexPath:indexPath];
         return attributes;
     }
     return nil;
@@ -119,17 +119,18 @@ LWZFittingSizeForWeight(CGFloat weight, CGSize fittingSize, NSInteger arranged, 
     NSMutableArray<LWZCollectionViewLayoutAttributes *> *attributesObjects = [NSMutableArray.alloc initWithCapacity:numberOfItems];
     LWZCollectionViewLayoutAttributes *previousItemAttributes = nil;
     LWZCollectionViewLayoutAttributes *firstItemAttributes = nil;
-    CGFloat progress = 0;
+    NSInteger posMilli = 0;
     for ( NSInteger i = 0 ; i < numberOfItems ; ++ i ) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:section];
         CGFloat weight = [layout layoutWeightForItemAtIndexPath:indexPath];
-        NSParameterAssert(weight > 0 && weight <= 1);
+        NSParameterAssert(weight > 0 && weight <= 1.0);
 
         // newline
-        CGFloat cur = progress + weight;
-        BOOL isFirstItem = firstItemAttributes == nil || cur > 1;
+        NSInteger weightMilli = weight * 1000; // 仅保留三位有效位
+        NSInteger curPosMilli = posMilli + weightMilli;
+        BOOL isFirstItem = firstItemAttributes == nil || curPosMilli > 1000;
         BOOL isNewline = isFirstItem && firstItemAttributes != nil;
-        progress = isFirstItem ? weight : cur;
+        posMilli = isFirstItem ? weightMilli : curPosMilli;
 
         if ( isNewline ) {
             switch ( scrollDirection ) {
@@ -578,8 +579,8 @@ LWZWaterfallFlowSetColumnOffset(CGFloat *columns, NSInteger index, CGRect itemFr
 
 - (void)didFinishPreparingInContainer:(LWZCollectionLayoutContainer *)container { }
 
-- (BOOL)shouldProcessLayoutForSectionAtIndex:(NSInteger)index {
-    return index == mSectionIndex;
+- (BOOL)isSectionHiddenAtIndex:(NSInteger)section {
+    return section != mSectionIndex ? YES : [super isSectionHiddenAtIndex:section];
 }
 
 - (nullable NSArray<LWZCollectionViewLayoutAttributes *> *)layoutAttributesObjectsForCellsWithSection:(NSInteger)section offset:(CGFloat)offset container:(LWZSectionLayoutContainer *)container {

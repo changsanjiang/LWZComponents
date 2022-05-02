@@ -15,11 +15,17 @@
 ///
 NS_ASSUME_NONNULL_BEGIN
 @interface LWZCollectionProvider : NSObject
+
+@property (nonatomic) CGFloat sectionSpacing;
+
 - (void)addSectionWithBlock:(void(^NS_NOESCAPE)(__kindof LWZCollectionSection *make))block;
 
 @property (nonatomic, readonly) NSInteger numberOfSections;
+- (NSInteger)numberOfItemsInSectionAtIndex:(NSInteger)sectionIndex;
+
 @property (nonatomic, readonly, nullable) __kindof LWZCollectionSection *firstSection;
 @property (nonatomic, readonly, nullable) __kindof LWZCollectionSection *lastSection;
+@property (nonatomic, readonly, nullable) NSArray<__kindof LWZCollectionSection *> *allSections;
 
 - (void)enumerateSectionsUsingBlock:(void(NS_NOESCAPE ^)(__kindof LWZCollectionSection *section, NSInteger idx, BOOL *stop))block;
 - (void)enumerateSectionHeadersUsingBlock:(void(NS_NOESCAPE ^)(__kindof LWZCollectionSectionHeaderFooter *header, NSInteger idx, BOOL *stop))block;

@@ -18,7 +18,7 @@ UIKIT_EXTERN CGSize
 LWZFittingSizeForFloatRange(UIFloatRange floatRange, UICollectionViewScrollDirection direction);
 
 UIKIT_EXTERN BOOL
-LWZFittingSizeInvalid(CGSize fittingSize);
+LWZFittingSizeIsInvalid(CGSize fittingSize);
 
 
 UIKIT_EXTERN CGSize

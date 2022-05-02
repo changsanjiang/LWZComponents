@@ -24,6 +24,10 @@
     return self;
 }
 
+- (NSInteger)sectionCount {
+    return mIndexes.count;
+}
+
 - (void)enumerateSectionsUsingBlock:(void(NS_NOESCAPE ^)(LWZCollectionLayoutSection *section, BOOL *stop))block {
     BOOL isStop = NO;
     NSUInteger currentIndex = [mIndexes firstIndex];

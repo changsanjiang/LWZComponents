@@ -30,7 +30,7 @@ LWZFittingSizeForFloatRange(UIFloatRange floatRange, UICollectionViewScrollDirec
 }
 
 BOOL
-LWZFittingSizeInvalid(CGSize fittingSize) {
+LWZFittingSizeIsInvalid(CGSize fittingSize) {
     return !((fittingSize.width == LWZFittingSizeMaxBoundary && fittingSize.height > 0) ||
              (fittingSize.height == LWZFittingSizeMaxBoundary && fittingSize.width > 0));
 }
